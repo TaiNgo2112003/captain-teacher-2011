@@ -1,118 +1,96 @@
 import React from 'react';
-import { Anchor, Compass, BookOpen, Sparkles, Calendar, Target, Flag } from 'lucide-react';
 
 export default function KeyVisualStory() {
   return (
-    <section id="keyvisual" className="py-20 relative bg-[#091424] border-y border-amber-500/10">
+    <section id="story" className="py-24 sm:py-32 bg-[#11263B] text-[#F5F0E7] relative overflow-hidden">
       
-      {/* Background ambient pattern */}
-      <div className="absolute inset-0 opacity-5 pointer-events-none bg-[radial-gradient(#f59e0b_1px,transparent_1px)] [background-size:24px_24px]" />
+      {/* Delicate background celestial & nautical coordinates */}
+      <div className="absolute inset-0 pointer-events-none opacity-10" aria-hidden="true">
+        <div className="absolute top-12 left-10 text-[9px] font-mono tracking-[0.3em] uppercase">
+          NAV. RECORD // CHAPTER 01 — THE STEERING HAND
+        </div>
+        <div className="absolute right-10 bottom-12 text-[9px] font-mono tracking-[0.3em] uppercase">
+          LAT 20°11' — COMPASS OF WISDOM
+        </div>
+        {/* Subtle circular compass geometry */}
+        <div className="absolute -left-32 top-1/2 -translate-y-1/2 w-96 h-96 border border-[#B39765] rounded-full opacity-20" />
+      </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 relative">
         
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold uppercase tracking-widest mb-3">
-            <Anchor className="w-3.5 h-3.5" />
-            <span>Ý Nghĩa Key Visual</span>
-          </div>
-          <h2 className="font-serif-display font-bold text-3xl sm:text-4xl text-white mb-4">
-            Tại Sao Lại Là <span className="text-amber-400">"Captain Teacher"</span>?
-          </h2>
-          <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-            Hình tượng "Người lái đò" truyền thống nay được làm mới trong diện mạo hiện đại của một <strong className="text-amber-300 font-semibold">Vị Thuyền Trưởng</strong> thời đại số: can trường, thông tuệ và luôn sát cánh cùng các thủy thủ sinh viên vượt qua biển lớn.
-          </p>
+        {/* Editorial Subtitle */}
+        <div className="text-xs uppercase tracking-[0.25em] text-[#B39765] font-semibold mb-6">
+          Về Ý Nghĩa Key Visual
         </div>
 
-        {/* 3 Pillars of Key Visual */}
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
+        {/* Asymmetrical Editorial Grid */}
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           
-          {/* Pillar 1 */}
-          <div className="relative group p-8 rounded-2xl bg-gradient-to-b from-[#0f2038] to-[#0a1626] border border-amber-500/20 hover:border-amber-400/50 transition-all shadow-xl hover:-translate-y-1">
-            <div className="w-14 h-14 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center mb-6 text-2xl border border-amber-500/30">
-              ⚓️
+          {/* Main Story Essay (Col 1-7) */}
+          <div className="lg:col-span-7 space-y-6">
+            <h2 className="font-editorial text-3xl sm:text-5xl font-bold tracking-tight text-[#FAF7F2] leading-tight">
+              Người trao cho ta chiếc la bàn, <br />
+              <span className="font-normal italic text-[#D3C6B3]">
+                để ta tự dong buồm ra khơi.
+              </span>
+            </h2>
+
+            <div className="space-y-5 text-sm sm:text-base text-[#D3C6B3] leading-relaxed font-light pt-2">
+              <p>
+                Từ xưa, ta quen gọi người thầy là <em className="text-[#FAF7F2] not-italic font-normal">“người lái đò”</em> thầm lặng đưa khách qua sông. Nhưng ở giảng đường đại học hôm nay, mối gắn kết ấy mang một tinh thần mới mẻ và can trường hơn: hình tượng <strong className="text-[#FAF7F2] font-semibold">Vị Thuyền Trưởng (Captain Teacher)</strong>.
+              </p>
+              
+              <p>
+                Thầy Cô không chỉ đưa ta qua một khúc sông êm đềm, mà đứng cùng ta trước biển lớn học thuật đầy bão táp. Điều quý giá nhất người Thầy trao không phải là một chiếc thuyền định sẵn đường đi, mà là chiếc la bàn tri thức, lòng tự trọng nghề nghiệp và dũng khí tự cầm lái cuộc đời mình.
+              </p>
+
+              <p className="border-l border-[#B39765] pl-5 italic text-[#FAF7F2]/90 text-sm sm:text-base my-6">
+                “Thầy Cô ở lại bến cảng, nhìn những cánh buồm sinh viên nối đuôi nhau ra khơi. Ngày 20/11 là khoảnh khắc ta ngoảnh lại, nghiêng mình trước người đã thắp sáng ngọn hải đăng đầu tiên.”
+              </p>
             </div>
-            <h3 className="font-serif-display font-bold text-xl text-white mb-3">
-              Mỏ Neo Vững Chãi
-            </h3>
-            <p className="text-slate-300 text-sm leading-relaxed">
-              Tượng trưng cho sự kiên định và tấm lòng bao dung của Thầy Cô. Dẫu đại dương học thuật có cuồng nộ hay sóng gió deadline bủa vây, Thầy Cô luôn là điểm tựa tinh thần vững chắc nhất cho sinh viên.
-            </p>
           </div>
 
-          {/* Pillar 2 */}
-          <div className="relative group p-8 rounded-2xl bg-gradient-to-b from-[#0f2038] to-[#0a1626] border border-amber-500/20 hover:border-amber-400/50 transition-all shadow-xl hover:-translate-y-1">
-            <div className="w-14 h-14 rounded-xl bg-sky-500/20 text-sky-300 flex items-center justify-center mb-6 text-2xl border border-sky-500/30">
-              🧭
-            </div>
-            <h3 className="font-serif-display font-bold text-xl text-white mb-3">
-              Kim Chỉ Nam Tri Thức
-            </h3>
-            <p className="text-slate-300 text-sm leading-relaxed">
-              Không đơn thuần dạy lý thuyết, mỗi lời giảng và định hướng nghiên cứu của Giảng viên là chiếc la bàn định hình tư duy logic, nhân cách sống và đạo đức nghề nghiệp trọn đời.
-            </p>
-          </div>
-
-          {/* Pillar 3 */}
-          <div className="relative group p-8 rounded-2xl bg-gradient-to-b from-[#0f2038] to-[#0a1626] border border-amber-500/20 hover:border-amber-400/50 transition-all shadow-xl hover:-translate-y-1">
-            <div className="w-14 h-14 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center mb-6 text-2xl border border-emerald-500/30">
-              🏮
-            </div>
-            <h3 className="font-serif-display font-bold text-xl text-white mb-3">
-              Ngọn Hải Đăng Dẫn Lối
-            </h3>
-            <p className="text-slate-300 text-sm leading-relaxed">
-              Ánh sáng từ phòng thí nghiệm hay những giờ giải đáp tận tâm của Thầy Cô là nguồn năng lượng xua tan bóng tối bỡ ngỡ của tân sinh viên, tiếp bước cho khát vọng vươn ra biển lớn.
-            </p>
-          </div>
-
-        </div>
-
-        {/* Event Timeline & Logistics Box */}
-        <div className="rounded-3xl bg-gradient-to-r from-[#0d1d33] via-[#112440] to-[#0d1d33] border border-amber-500/30 p-8 sm:p-10 shadow-2xl">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
+          {/* Right Column: 3 Anchors of Growth (Col 8-12) */}
+          <div className="lg:col-span-5 space-y-6 lg:pt-4">
             
-            <div className="space-y-4 max-w-xl">
-              <div className="flex items-center gap-2 text-amber-400 text-sm font-semibold">
-                <Flag className="w-4 h-4" />
-                <span>THÔNG TIN CHI TIẾT SỰ KIỆN 20/11</span>
+            <div className="p-6 sm:p-7 rounded-2xl bg-[#18334E]/60 border border-[#B39765]/30 space-y-3">
+              <div className="text-[11px] font-mono tracking-widest text-[#B39765] uppercase">
+                01 / Định Hướng
               </div>
-              <h3 className="font-serif-display font-bold text-2xl sm:text-3xl text-white">
-                Hải Trình Tri Ân "Captain Teacher" 2026
+              <h3 className="font-editorial text-lg font-semibold text-[#FAF7F2]">
+                Không áp đặt lối mòn, chỉ gợi mở chân trời
               </h3>
-              <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                Chuỗi hoạt động tương tác online & offline kết nối hàng chục ngàn sinh viên, cựu sinh viên với quý thầy cô giáo. Hãy gửi gắm những lời tri ân chân thành nhất trước ngày bế mạc sự kiện.
+              <p className="text-xs text-[#D3C6B3] leading-relaxed">
+                Người giảng viên thấu hiểu rằng mỗi sinh viên là một con tàu mang sứ mệnh riêng, cần được tôn trọng cá tính để tìm thấy hải trình đích thực.
               </p>
             </div>
 
-            {/* Quick Milestones */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full lg:w-auto">
-              
-              <div className="flex items-start gap-3 bg-[#081220]/80 p-4 rounded-xl border border-slate-700/60">
-                <div className="p-2 rounded-lg bg-amber-500/20 text-amber-400">
-                  <Calendar className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="text-xs font-semibold text-amber-300 uppercase">Thời Gian Diễn Ra</h4>
-                  <p className="text-sm font-bold text-white">01/11 - 22/11/2026</p>
-                  <p className="text-[11px] text-slate-400">Mở cổng gửi thiệp 24/7</p>
-                </div>
+            <div className="p-6 sm:p-7 rounded-2xl bg-[#18334E]/60 border border-[#B39765]/30 space-y-3">
+              <div className="text-[11px] font-mono tracking-widest text-[#B39765] uppercase">
+                02 / Trưởng Thành
               </div>
+              <h3 className="font-editorial text-lg font-semibold text-[#FAF7F2]">
+                Vượt qua những cơn bão đầu đời
+              </h3>
+              <p className="text-xs text-[#D3C6B3] leading-relaxed">
+                Những đêm dài thức trắng cùng đồ án, những lời sửa sai nghiêm khắc nhưng đầy bao dung chính là thao trường tôi luyện bản lĩnh thủy thủ.
+              </p>
+            </div>
 
-              <div className="flex items-start gap-3 bg-[#081220]/80 p-4 rounded-xl border border-slate-700/60">
-                <div className="p-2 rounded-lg bg-sky-500/20 text-sky-400">
-                  <Target className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="text-xs font-semibold text-sky-300 uppercase">Đối Tượng Tham Gia</h4>
-                  <p className="text-sm font-bold text-white">Sinh viên & Cựu SV</p>
-                  <p className="text-[11px] text-slate-400">Tất cả các khoa viện</p>
-                </div>
+            <div className="p-6 sm:p-7 rounded-2xl bg-[#18334E]/60 border border-[#B39765]/30 space-y-3">
+              <div className="text-[11px] font-mono tracking-widest text-[#B39765] uppercase">
+                03 / Tri Ân
               </div>
-
+              <h3 className="font-editorial text-lg font-semibold text-[#FAF7F2]">
+                Dấu mốc dừng chân gửi lời cảm ơn
+              </h3>
+              <p className="text-xs text-[#D3C6B3] leading-relaxed">
+                Dù bạn đang là sinh viên trên giảng đường hay đã là người kỹ sư, doanh nhân ngoài biển lớn, 20/11 luôn là ngày nhớ về người thuyền trưởng cũ.
+              </p>
             </div>
 
           </div>
+
         </div>
 
       </div>

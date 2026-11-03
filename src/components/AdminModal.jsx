@@ -6,16 +6,11 @@ import {
   EyeOff, 
   Trash2, 
   Pin, 
-  Filter, 
   Lock, 
-  FileText, 
-  Zap, 
   Copy, 
   Check, 
-  AlertTriangle,
-  Server,
-  Calendar,
-  DollarSign
+  DollarSign, 
+  Server
 } from 'lucide-react';
 import { PROPOSAL_DATA } from '../data/initialData';
 
@@ -38,10 +33,8 @@ export default function AdminModal({
   const [newWord, setNewWord] = useState('');
   const [copiedProposal, setCopiedProposal] = useState(false);
   
-  // Anti-spam toggles (demo state)
   const [rateLimitEnabled, setRateLimitEnabled] = useState(true);
   const [autoFlagWords, setAutoFlagWords] = useState(true);
-  const [requireCaptcha, setRequireCaptcha] = useState(false);
 
   if (!isOpen) return null;
 
@@ -50,7 +43,7 @@ export default function AdminModal({
     if (pin === '2011' || pin === 'admin') {
       setIsAuthenticated(true);
     } else {
-      alert('Mã PIN không đúng! Gợi ý mã PIN demo là: 2011');
+      alert('Mã PIN không đúng! Gợi ý mã PIN demo: 2011');
     }
   };
 
@@ -63,31 +56,30 @@ export default function AdminModal({
   };
 
   const handleCopyProposalEmail = () => {
-    const emailBody = `Kính gửi Quý Khách hàng,
+    const emailBody = `Kính gửi Quý Đối tác,
 
-Em xin gửi phản hồi chi tiết về Báo giá và Giải pháp kỹ thuật cho dự án: Landing Page Tri Ân 20/11 - Key Visual "Captain Teacher".
+Em xin gửi phản hồi chi tiết về Báo giá và Giải pháp kỹ thuật cho dự án: Landing Page Tri Ân 20/11 - Key Visual "Captain Teacher" (The Captain’s Journal).
 
 1. BÁO GIÁ TRỌN GÓI:
 - Gói Cơ Bản: ${PROPOSAL_DATA.pricing.basePackage}
-  (Gồm toàn bộ Landing Page chuẩn KV, Viết thiệp & Đăng tường, 3-5 Topic thảo luận kèm upload 1-3 ảnh, Trang Admin duyệt bài & lọc từ nhạy cảm, Miễn phí Hosting & Cloudflare CDN).
+  (Gồm toàn bộ Landing Page chuẩn KV The Captain’s Journal, Postcard Studio viết & lưu bưu thiếp thời gian thực, 4 Chủ đề ký ức kèm upload 1-3 ảnh, Trang Admin duyệt bài & lọc từ nhạy cảm, Miễn phí Hosting & Cloudflare Edge CDN).
 - Gói Tùy Chọn: ${PROPOSAL_DATA.pricing.optionalPackage}
   (${PROPOSAL_DATA.pricing.optionalName}).
-=> Giá Combo Ưu đãi trọn gói: ${PROPOSAL_DATA.pricing.totalCombo} (ĐÃ BAO GỒM 100% CHI PHÍ HẠ TẦNG & HOSTING, không phát sinh thêm bất kỳ chi phí nào).
+=> Giá Combo Ưu đãi trọn gói: ${PROPOSAL_DATA.pricing.totalCombo} (ĐÃ BAO GỒM 100% CHI PHÍ HẠ TẦNG & HOSTING, không phát sinh chi phí).
 
 2. THỜI GIAN CAM KẾT:
 - Bàn giao Demo: Ngày ${PROPOSAL_DATA.timeline.demoDate}
-- Bàn giao Bản Hoàn Chỉnh & Hướng Dẫn Quản Trị: Ngày ${PROPOSAL_DATA.timeline.finalDelivery}
-- Hỗ trợ trực kỹ thuật xuyên suốt sự kiện: Đến hết ngày 22/11.
+- Bàn giao Bản Hoàn Chỉnh: Ngày ${PROPOSAL_DATA.timeline.finalDelivery}
+- Hỗ trợ trực kỹ thuật: Đến hết ngày 22/11.
 
-3. HẠ TẦNG & XỬ LÝ TRUY CẬP ĐỘT BIẾN (100k - 200k lượt truy cập):
-- Công nghệ: React 19 / Next.js Static Export + CDN Cloudflare Edge Caching trên toàn cầu.
-- Bộ nhớ đệm tĩnh 99% tài nguyên giúp máy chủ chịu tải tức thời lên tới 500.000 lượt truy cập mà không lo nghẽn mạng hay sập web.
-- Hệ thống Cloudflare Turnstile & Edge Rate Limiting chống spam bot, DDOS.
-- Ảnh được nén tự động qua CDN trước khi lưu trữ.
+3. HẠ TẦNG & CHỊU TẢI (100.000 - 200.000 lượt truy cập):
+- Công nghệ: React 19 / Vite Static + CDN Cloudflare Edge Caching trên 300+ PoPs toàn cầu.
+- Bộ nhớ đệm tĩnh 99% tài nguyên giúp hệ thống chịu tải tức thời lên tới 500.000 lượt truy cập mà không lo nghẽn mạng hay sập web.
+- Cloudflare Turnstile & Edge Rate Limiting chống spam bot, DDOS.
 
 4. KINH NGHIỆM ĐÃ TRIỂN KHAI:
-- Chiến dịch Tri Ân Mùa Tốt Nghiệp "Dấu Chân Tri Thức" (120k visits).
-- Landing Page Hackathon Toàn Quốc (250k visits).
+- Chiến dịch Tri Ân "Dấu Chân Tri Thức" (120k visits).
+- Landing Page Hackathon Sinh Viên Toàn Quốc (250k visits).
 - Website Kỷ Niệm 30 Năm Thành Lập Trường (180k visits).
 
 5. ĐỘI NGŨ & TIẾN ĐỘ:
@@ -95,10 +87,10 @@ Em xin gửi phản hồi chi tiết về Báo giá và Giải pháp kỹ thuậ
 
 6. HÌNH THỨC THANH TOÁN (3 đợt):
 - Đợt 1: Cọc 30% khi chốt hợp đồng.
-- Đợt 2: 40% sau khi duyệt bản demo (04/11 - 05/11).
+- Đợt 2: 40% sau khi nghiệm thu bản demo (04/11 - 05/11).
 - Đợt 3: 30% còn lại sau khi bàn giao 100% source code và kết thúc sự kiện.
 
-Em đã làm sẵn bản demo tương tác để Quý khách xem trực tiếp!
+Em đã hoàn thiện bản demo tương tác để Quý khách xem trực tiếp!
 Trân trọng cảm ơn!`;
 
     navigator.clipboard.writeText(emailBody);
@@ -107,63 +99,61 @@ Trân trọng cảm ơn!`;
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-[#11263B]/85 backdrop-blur-sm animate-fadeIn">
       
-      {/* Background click to dismiss */}
+      {/* Backdrop */}
       <div className="absolute inset-0" onClick={onClose} />
 
-      <div className="relative w-full max-w-5xl bg-[#091424] border border-amber-500/30 rounded-3xl shadow-2xl z-10 overflow-hidden flex flex-col max-h-[90vh]">
+      <div className="relative w-full max-w-4xl bg-[#FAF7F2] border border-[#D3C6B3] rounded-2xl shadow-2xl z-10 overflow-hidden flex flex-col max-h-[90vh]">
         
-        {/* Modal Top Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-[#070e1b]">
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#D3C6B3] bg-[#F5F0E7]">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center">
-              <ShieldCheck className="w-5 h-5" />
+            <div className="w-8 h-8 rounded-full border border-[#B39765] flex items-center justify-center text-[#B39765]">
+              <ShieldCheck className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="font-serif-display font-bold text-white text-base sm:text-lg">
-                Hệ Thống Quản Trị & Đề Xuất Kỹ Thuật
+              <h3 className="font-editorial font-bold text-sm sm:text-base text-[#11263B]">
+                Bảng Điều Khiển Kiểm Duyệt & Kỹ Thuật
               </h3>
-              <p className="text-[11px] text-slate-400">
-                Captain Teacher 20/11 • Bảng điều khiển kiểm duyệt nội dung
+              <p className="text-[10px] text-[#5C6A79]">
+                The Captain’s Journal • Quản trị nội dung 20/11
               </p>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+            className="p-1 rounded-full text-[#5C6A79] hover:text-[#11263B] transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Auth Gate if not logged in */}
+        {/* Auth Gate */}
         {!isAuthenticated ? (
-          <div className="p-8 sm:p-12 text-center max-w-md mx-auto my-auto">
-            <div className="w-14 h-14 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center mx-auto mb-4 border border-amber-500/30">
-              <Lock className="w-6 h-6" />
+          <div className="p-8 sm:p-12 text-center max-w-sm mx-auto my-auto">
+            <div className="w-12 h-12 rounded-full border border-[#B39765] flex items-center justify-center mx-auto mb-4 text-[#B39765]">
+              <Lock className="w-5 h-5" />
             </div>
-            <h4 className="font-bold text-xl text-white mb-2">Đăng Nhập Quản Trị Viên</h4>
-            <p className="text-xs text-slate-400 mb-6 leading-relaxed">
-              Khu vực dành cho Ban Tổ Chức duyệt bài, thiết lập chống spam, lọc từ nhạy cảm và xem bảng đề xuất giải pháp kỹ thuật.
+            <h4 className="font-editorial font-bold text-lg text-[#11263B] mb-2">Đăng Nhập Quản Trị</h4>
+            <p className="text-xs text-[#5C6A79] mb-6 leading-relaxed">
+              Khu vực dành cho Ban Tổ Chức duyệt bưu thiếp, thiết lập bộ lọc từ nhạy cảm và xem đề xuất kỹ thuật.
             </p>
 
-            <form onSubmit={handleLogin} className="space-y-4">
-              <div>
-                <input
-                  type="password"
-                  placeholder="Nhập mã PIN quản trị (VD: 2011)"
-                  value={pin}
-                  onChange={(e) => setPin(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl bg-[#070e1b] border border-slate-700 text-white text-center text-lg tracking-widest focus:outline-none focus:border-amber-400"
-                  autoFocus
-                />
-              </div>
+            <form onSubmit={handleLogin} className="space-y-3">
+              <input
+                type="password"
+                placeholder="Nhập mã PIN (VD: 2011)"
+                value={pin}
+                onChange={(e) => setPin(e.target.value)}
+                className="w-full px-4 py-2.5 rounded-xl bg-[#F5F0E7] border border-[#D3C6B3] text-[#11263B] text-center text-base tracking-widest focus:outline-none focus:border-[#11263B]"
+                autoFocus
+              />
 
               <button
                 type="submit"
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 text-slate-950 font-bold text-sm shadow-lg hover:brightness-110 transition-all cursor-pointer"
+                className="w-full py-2.5 rounded-full bg-[#11263B] text-[#F5F0E7] font-semibold text-xs uppercase tracking-wider hover:bg-[#18334E] transition-all cursor-pointer"
               >
                 Mở Bảng Điều Khiển
               </button>
@@ -171,145 +161,141 @@ Trân trọng cảm ơn!`;
               <button
                 type="button"
                 onClick={() => setPin('2011')}
-                className="text-xs text-amber-400/80 hover:text-amber-300 underline cursor-pointer"
+                className="text-[11px] text-[#B9685C] underline cursor-pointer"
               >
-                Nhập nhanh mã PIN demo: 2011
+                Điền nhanh mã PIN demo: 2011
               </button>
             </form>
           </div>
         ) : (
-          /* Logged In Dashboard View */
           <div className="flex-1 flex flex-col overflow-hidden">
             
-            {/* Tab navigation */}
-            <div className="flex items-center gap-2 px-6 pt-3 border-b border-slate-800 bg-[#070e1b] overflow-x-auto">
+            {/* Tabs */}
+            <div className="flex items-center gap-1 px-6 pt-3 border-b border-[#D3C6B3] bg-[#F5F0E7] overflow-x-auto text-xs">
               <button
                 onClick={() => setActiveTab('cards')}
-                className={`px-4 py-2 text-xs font-semibold rounded-t-xl transition-colors cursor-pointer border-t-2 ${
+                className={`px-3 py-2 font-medium rounded-t-lg transition-colors cursor-pointer border-b-2 ${
                   activeTab === 'cards'
-                    ? 'bg-[#091424] text-amber-400 border-amber-400'
-                    : 'text-slate-400 hover:text-white border-transparent'
+                    ? 'border-[#11263B] text-[#11263B] font-semibold bg-[#FAF7F2]'
+                    : 'border-transparent text-[#5C6A79]'
                 }`}
               >
-                💌 Duyệt Thiệp ({cards.length})
+                Bưu Thiếp ({cards.length})
               </button>
 
               <button
                 onClick={() => setActiveTab('comments')}
-                className={`px-4 py-2 text-xs font-semibold rounded-t-xl transition-colors cursor-pointer border-t-2 ${
+                className={`px-3 py-2 font-medium rounded-t-lg transition-colors cursor-pointer border-b-2 ${
                   activeTab === 'comments'
-                    ? 'bg-[#091424] text-amber-400 border-amber-400'
-                    : 'text-slate-400 hover:text-white border-transparent'
+                    ? 'border-[#11263B] text-[#11263B] font-semibold bg-[#FAF7F2]'
+                    : 'border-transparent text-[#5C6A79]'
                 }`}
               >
-                💬 Duyệt Topic Bình Luận
+                Ký Ức Giảng Đường
               </button>
 
               <button
                 onClick={() => setActiveTab('filter')}
-                className={`px-4 py-2 text-xs font-semibold rounded-t-xl transition-colors cursor-pointer border-t-2 ${
+                className={`px-3 py-2 font-medium rounded-t-lg transition-colors cursor-pointer border-b-2 ${
                   activeTab === 'filter'
-                    ? 'bg-[#091424] text-amber-400 border-amber-400'
-                    : 'text-slate-400 hover:text-white border-transparent'
+                    ? 'border-[#11263B] text-[#11263B] font-semibold bg-[#FAF7F2]'
+                    : 'border-transparent text-[#5C6A79]'
                 }`}
               >
-                🚫 Lọc Từ Nhạy Cảm ({sensitiveWords.length})
+                Lọc Từ Nhạy Cảm ({sensitiveWords.length})
               </button>
 
               <button
                 onClick={() => setActiveTab('spam')}
-                className={`px-4 py-2 text-xs font-semibold rounded-t-xl transition-colors cursor-pointer border-t-2 ${
+                className={`px-3 py-2 font-medium rounded-t-lg transition-colors cursor-pointer border-b-2 ${
                   activeTab === 'spam'
-                    ? 'bg-[#091424] text-amber-400 border-amber-400'
-                    : 'text-slate-400 hover:text-white border-transparent'
+                    ? 'border-[#11263B] text-[#11263B] font-semibold bg-[#FAF7F2]'
+                    : 'border-transparent text-[#5C6A79]'
                 }`}
               >
-                ⚡️ Chống Spam & Hạ Tầng
+                Chống Spam
               </button>
 
               <button
                 onClick={() => setActiveTab('proposal')}
-                className={`px-4 py-2 text-xs font-semibold rounded-t-xl transition-colors cursor-pointer border-t-2 ${
+                className={`px-3 py-2 font-medium rounded-t-lg transition-colors cursor-pointer border-b-2 ${
                   activeTab === 'proposal'
-                    ? 'bg-[#091424] text-emerald-400 border-emerald-400'
-                    : 'text-emerald-400/80 hover:text-emerald-300 border-transparent'
+                    ? 'border-[#B9685C] text-[#B9685C] font-semibold bg-[#FAF7F2]'
+                    : 'border-transparent text-[#B9685C]/75'
                 }`}
               >
-                📊 Báo Giá & Đề Xuất Kỹ Thuật (RFP)
+                Đề Xuất Kỹ Thuật (RFP)
               </button>
             </div>
 
-            {/* Tab Contents (Scrollable) */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-6">
+            {/* Tab Contents */}
+            <div className="flex-1 overflow-y-auto p-6 space-y-5 text-xs text-[#1C2A39]">
               
-              {/* TAB 1: DUYỆT THIỆP */}
+              {/* TAB 1: DUYỆT BƯU THIẾP */}
               {activeTab === 'cards' && (
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-slate-400">
-                      Hiển thị danh sách thiệp đã đăng. Quản trị viên có thể Ẩn hoặc Duyệt tức thì.
-                    </span>
-                    <span className="text-xs text-amber-400 font-bold">
-                      {cards.filter(c => c.status === 'approved').length} đang hiện / {cards.length} tổng số
+                  <div className="flex items-center justify-between text-[#5C6A79]">
+                    <span>Quản lý bưu thiếp công khai trên tường tri ân:</span>
+                    <span className="font-mono font-bold text-[#11263B]">
+                      {cards.filter(c => c.status === 'approved').length} đang hiện / {cards.length} tổng
                     </span>
                   </div>
 
-                  <div className="divide-y divide-slate-800 border border-slate-800 rounded-2xl overflow-hidden bg-[#070e1b]">
+                  <div className="divide-y divide-[#D3C6B3]/60 border border-[#D3C6B3] rounded-xl overflow-hidden bg-[#FAF7F2]">
                     {cards.map((c) => (
-                      <div key={c.id} className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-[#091629] transition-colors">
-                        <div className="space-y-1 max-w-xl">
+                      <div key={c.id} className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[#F5F0E7] transition-colors">
+                        <div className="space-y-1 max-w-lg">
                           <div className="flex items-center gap-2">
-                            <span className="font-bold text-sm text-white">{c.toTeacher}</span>
-                            <span className="text-[11px] text-slate-400">({c.faculty})</span>
-                            <span className={`text-[10px] px-2 py-0.5 rounded font-bold uppercase ${
-                              c.status === 'approved' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'
+                            <span className="font-editorial font-bold text-[#11263B]">{c.toTeacher}</span>
+                            <span className="text-[11px] text-[#5C6A79]">({c.faculty})</span>
+                            <span className={`text-[9px] px-1.5 py-0.2 rounded font-bold uppercase ${
+                              c.status === 'approved' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
                             }`}>
-                              {c.status === 'approved' ? 'Đã duyệt' : 'Đang ẩn'}
+                              {c.status === 'approved' ? 'Hiển thị' : 'Đang ẩn'}
                             </span>
                             {c.isPinned && (
-                              <span className="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">
+                              <span className="text-[9px] px-1.5 py-0.2 rounded bg-amber-100 text-amber-800 font-bold">
                                 Ghim
                               </span>
                             )}
                           </div>
-                          <p className="text-xs text-slate-300 line-clamp-2 italic">
-                            "{c.message}"
+                          <p className="text-xs text-[#1C2A39]/80 italic line-clamp-2">
+                            “{c.message}”
                           </p>
-                          <div className="text-[11px] text-slate-500">
-                            Người gửi: <span className="text-slate-300">{c.fromStudent}</span> • {c.studentClass}
+                          <div className="text-[10px] text-[#8C98A4]">
+                            Từ: {c.fromStudent} • {c.studentClass}
                           </div>
                         </div>
 
-                        {/* Admin Action Buttons */}
                         <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
                           <button
                             onClick={() => onToggleCardPin(c.id)}
-                            className={`p-2 rounded-xl text-xs font-medium border cursor-pointer ${
+                            className={`p-1.5 rounded-lg border cursor-pointer ${
                               c.isPinned 
-                                ? 'bg-amber-500/20 border-amber-400 text-amber-300' 
-                                : 'bg-[#0b1626] border-slate-700 text-slate-400 hover:text-white'
+                                ? 'bg-[#B39765]/20 border-[#B39765] text-[#11263B]' 
+                                : 'bg-[#F5F0E7] border-[#D3C6B3] text-[#8C98A4]'
                             }`}
-                            title="Ghim lên đầu"
+                            title="Ghim nổi bật"
                           >
-                            <Pin className="w-4 h-4" />
+                            <Pin className="w-3.5 h-3.5" />
                           </button>
 
                           <button
                             onClick={() => onToggleCardStatus(c.id)}
-                            className={`px-3 py-1.5 rounded-xl text-xs font-semibold border flex items-center gap-1.5 cursor-pointer ${
+                            className={`px-2.5 py-1 rounded-lg border font-medium flex items-center gap-1 cursor-pointer ${
                               c.status === 'approved'
-                                ? 'bg-rose-500/10 border-rose-500/40 text-rose-300 hover:bg-rose-500/20'
-                                : 'bg-emerald-500/10 border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/20'
+                                ? 'bg-rose-50 border-rose-200 text-rose-700'
+                                : 'bg-emerald-50 border-emerald-200 text-emerald-700'
                             }`}
                           >
                             {c.status === 'approved' ? (
                               <>
-                                <EyeOff className="w-3.5 h-3.5" />
+                                <EyeOff className="w-3 h-3" />
                                 <span>Ẩn</span>
                               </>
                             ) : (
                               <>
-                                <Eye className="w-3.5 h-3.5" />
+                                <Eye className="w-3 h-3" />
                                 <span>Duyệt</span>
                               </>
                             )}
@@ -317,10 +303,10 @@ Trân trọng cảm ơn!`;
 
                           <button
                             onClick={() => onDeleteCard(c.id)}
-                            className="p-2 rounded-xl bg-slate-800 hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 border border-slate-700 cursor-pointer"
+                            className="p-1.5 rounded-lg bg-[#F5F0E7] hover:bg-rose-50 text-[#8C98A4] hover:text-rose-700 border border-[#D3C6B3] cursor-pointer"
                             title="Xóa vĩnh viễn"
                           >
-                            <Trash2 className="w-4 h-4" />
+                            <Trash2 className="w-3.5 h-3.5" />
                           </button>
                         </div>
                       </div>
@@ -332,40 +318,33 @@ Trân trọng cảm ơn!`;
               {/* TAB 2: DUYỆT BÌNH LUẬN TOPIC */}
               {activeTab === 'comments' && (
                 <div className="space-y-4">
-                  <div className="text-xs text-slate-400">
-                    Quản lý toàn bộ câu trả lời trong 4 chủ đề thảo luận:
-                  </div>
-
                   {topics.map((t) => (
-                    <div key={t.id} className="border border-slate-800 rounded-2xl p-4 bg-[#070e1b] space-y-3">
-                      <div className="font-bold text-sm text-amber-300 border-b border-slate-800 pb-2">
+                    <div key={t.id} className="border border-[#D3C6B3] rounded-xl p-4 bg-[#FAF7F2] space-y-3">
+                      <div className="font-editorial font-bold text-xs text-[#11263B] border-b border-[#D3C6B3]/60 pb-2">
                         {t.title}
                       </div>
 
                       <div className="space-y-2">
                         {t.comments?.map((cmt) => (
-                          <div key={cmt.id} className="p-3 rounded-xl bg-[#0b1626] border border-slate-800/80 flex items-start justify-between gap-3 text-xs">
+                          <div key={cmt.id} className="p-3 rounded-lg bg-[#F5F0E7] border border-[#D3C6B3]/60 flex items-start justify-between gap-3 text-xs">
                             <div>
                               <div className="flex items-center gap-2 mb-1">
-                                <span className="font-bold text-white">{cmt.author}</span>
-                                <span className="text-[10px] text-slate-400">({cmt.badge})</span>
-                                <span className={`text-[9px] px-1.5 py-0.2 rounded font-bold uppercase ${
-                                  cmt.status === 'approved' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'
+                                <span className="font-bold text-[#11263B]">{cmt.author}</span>
+                                <span className="text-[10px] text-[#5C6A79]">({cmt.badge})</span>
+                                <span className={`text-[8px] px-1 py-0.2 rounded font-bold uppercase ${
+                                  cmt.status === 'approved' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
                                 }`}>
                                   {cmt.status === 'approved' ? 'Đã duyệt' : 'Đang ẩn'}
                                 </span>
                               </div>
-                              <p className="text-slate-300 leading-relaxed mb-1">{cmt.content}</p>
-                              {cmt.images?.length > 0 && (
-                                <span className="text-[10px] text-amber-400">Có {cmt.images.length} ảnh đính kèm</span>
-                              )}
+                              <p className="text-[#1C2A39] leading-relaxed italic">“{cmt.content}”</p>
                             </div>
 
                             <button
                               onClick={() => onToggleCommentStatus(t.id, cmt.id)}
-                              className="px-2.5 py-1 rounded-lg border text-[11px] font-semibold shrink-0 cursor-pointer bg-[#070e1b] hover:bg-slate-800 border-slate-700 text-slate-300"
+                              className="px-2 py-1 rounded border border-[#D3C6B3] bg-[#FAF7F2] text-[10px] font-semibold shrink-0 cursor-pointer"
                             >
-                              {cmt.status === 'approved' ? 'Ẩn bình luận' : 'Duyệt'}
+                              {cmt.status === 'approved' ? 'Ẩn' : 'Duyệt'}
                             </button>
                           </div>
                         ))}
@@ -377,43 +356,38 @@ Trân trọng cảm ơn!`;
 
               {/* TAB 3: BỘ LỌC TỪ NHẠY CẢM */}
               {activeTab === 'filter' && (
-                <div className="space-y-6">
-                  <div>
-                    <h4 className="font-bold text-white text-sm mb-1">
-                      Danh sách từ khóa cấm & nhạy cảm
-                    </h4>
-                    <p className="text-xs text-slate-400">
-                      Hệ thống tự động gắn cờ hoặc che dấu các từ ngữ phản cảm, vi phạm văn hóa học đường trước khi xuất hiện công khai.
-                    </p>
-                  </div>
+                <div className="space-y-4">
+                  <p className="text-xs text-[#5C6A79]">
+                    Hệ thống tự động che dấu bằng dấu hoa thị <code>***</code> những từ ngữ không phù hợp với thuần phong mỹ tục giảng đường.
+                  </p>
 
                   <form onSubmit={handleAddWord} className="flex gap-2">
                     <input
                       type="text"
-                      placeholder="Thêm từ khóa nhạy cảm mới..."
+                      placeholder="Thêm từ khóa nhạy cảm..."
                       value={newWord}
                       onChange={(e) => setNewWord(e.target.value)}
-                      className="flex-1 px-4 py-2.5 rounded-xl bg-[#070e1b] border border-slate-700 text-white text-xs focus:outline-none focus:border-amber-400"
+                      className="flex-1 px-3 py-2 rounded-lg bg-[#F5F0E7] border border-[#D3C6B3] text-xs focus:outline-none focus:border-[#11263B]"
                     />
                     <button
                       type="submit"
-                      className="px-4 py-2.5 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs cursor-pointer hover:bg-amber-400"
+                      className="px-4 py-2 rounded-lg bg-[#11263B] text-[#F5F0E7] font-semibold text-xs cursor-pointer"
                     >
-                      Thêm Từ
+                      Thêm
                     </button>
                   </form>
 
-                  <div className="flex flex-wrap gap-2 p-4 rounded-2xl bg-[#070e1b] border border-slate-800">
+                  <div className="flex flex-wrap gap-2 p-4 rounded-xl bg-[#FAF7F2] border border-[#D3C6B3]">
                     {sensitiveWords.map((word, i) => (
                       <span
                         key={i}
-                        className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs"
+                        className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-rose-50 border border-rose-200 text-rose-800 text-xs"
                       >
                         <span>{word}</span>
                         <button
                           type="button"
                           onClick={() => onRemoveSensitiveWord(word)}
-                          className="hover:text-white font-bold ml-1 cursor-pointer"
+                          className="hover:text-black font-bold ml-1 cursor-pointer"
                         >
                           ×
                         </button>
@@ -423,180 +397,86 @@ Trân trọng cảm ơn!`;
                 </div>
               )}
 
-              {/* TAB 4: CHỐNG SPAM & HẠ TẦNG */}
+              {/* TAB 4: CHỐNG SPAM */}
               {activeTab === 'spam' && (
-                <div className="space-y-6">
-                  <div>
-                    <h4 className="font-bold text-white text-sm mb-1">
-                      Cấu hình Bảo Vệ & Chống Spam
-                    </h4>
-                    <p className="text-xs text-slate-400">
-                      Các cơ chế tự động bảo vệ hệ thống trước nguy cơ spam tin nhắn và quá tải mạng.
-                    </p>
+                <div className="space-y-3">
+                  <div className="p-3.5 rounded-xl bg-[#FAF7F2] border border-[#D3C6B3] flex items-center justify-between">
+                    <div>
+                      <div className="font-semibold text-[#11263B]">Rate-Limiting (Giới hạn tần suất)</div>
+                      <div className="text-[11px] text-[#5C6A79]">Mỗi địa chỉ IP chỉ được gửi bưu thiếp cách nhau tối thiểu 30 giây</div>
+                    </div>
+                    <input
+                      type="checkbox"
+                      checked={rateLimitEnabled}
+                      onChange={(e) => setRateLimitEnabled(e.target.checked)}
+                      className="w-4 h-4 accent-[#11263B]"
+                    />
                   </div>
 
-                  <div className="space-y-4">
-                    <div className="p-4 rounded-2xl bg-[#070e1b] border border-slate-800 flex items-center justify-between">
-                      <div>
-                        <div className="text-xs font-bold text-white">Rate-Limiting (Giới hạn tần suất)</div>
-                        <div className="text-[11px] text-slate-400">Mỗi địa chỉ IP chỉ được gửi thiệp cách nhau tối thiểu 30 giây</div>
-                      </div>
-                      <input
-                        type="checkbox"
-                        checked={rateLimitEnabled}
-                        onChange={(e) => setRateLimitEnabled(e.target.checked)}
-                        className="w-5 h-5 accent-amber-500 cursor-pointer"
-                      />
+                  <div className="p-3.5 rounded-xl bg-[#FAF7F2] border border-[#D3C6B3] flex items-center justify-between">
+                    <div>
+                      <div className="font-semibold text-[#11263B]">Gắn cờ nội dung trùng lặp</div>
+                      <div className="text-[11px] text-[#5C6A79]">Tự động chuyển vào hàng đợi kiểm duyệt nếu phát hiện spam trùng nội dung</div>
                     </div>
-
-                    <div className="p-4 rounded-2xl bg-[#070e1b] border border-slate-800 flex items-center justify-between">
-                      <div>
-                        <div className="text-xs font-bold text-white">Tự động gắn cờ bài đăng trùng lặp</div>
-                        <div className="text-[11px] text-slate-400">Nếu 1 nội dung bị gửi nhiều lần sẽ tự động chuyển vào hàng đợi kiểm duyệt</div>
-                      </div>
-                      <input
-                        type="checkbox"
-                        checked={autoFlagWords}
-                        onChange={(e) => setAutoFlagWords(e.target.checked)}
-                        className="w-5 h-5 accent-amber-500 cursor-pointer"
-                      />
-                    </div>
-
-                    <div className="p-4 rounded-2xl bg-[#070e1b] border border-slate-800 flex items-center justify-between">
-                      <div>
-                        <div className="text-xs font-bold text-white">Cloudflare Turnstile Captcha</div>
-                        <div className="text-[11px] text-slate-400">Kích hoạt xác minh bảo mật khi lưu lượng truy cập tăng vọt trên 5.000 req/min</div>
-                      </div>
-                      <input
-                        type="checkbox"
-                        checked={requireCaptcha}
-                        onChange={(e) => setRequireCaptcha(e.target.checked)}
-                        className="w-5 h-5 accent-amber-500 cursor-pointer"
-                      />
-                    </div>
+                    <input
+                      type="checkbox"
+                      checked={autoFlagWords}
+                      onChange={(e) => setAutoFlagWords(e.target.checked)}
+                      className="w-4 h-4 accent-[#11263B]"
+                    />
                   </div>
                 </div>
               )}
 
-              {/* TAB 5: BÁO GIÁ & ĐỀ XUẤT KỸ THUẬT (RFP) */}
+              {/* TAB 5: BÁO GIÁ & KỸ THUẬT (RFP) */}
               {activeTab === 'proposal' && (
-                <div className="space-y-6">
-                  
-                  {/* Top Bar with One-Click Copy */}
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between p-4 rounded-xl bg-[#B39765]/15 border border-[#B39765]/30">
                     <div>
-                      <h4 className="font-bold text-emerald-300 text-sm">
-                        Bản Phản Hồi Báo Giá & Phương Án Kỹ Thuật (RFP)
+                      <h4 className="font-editorial font-bold text-sm text-[#11263B]">
+                        Bản Đề Xuất Báo Giá & Kiến Trúc Chịu Tải 200.000 Visits
                       </h4>
-                      <p className="text-[11px] text-emerald-200/80">
-                        Đã soạn sẵn đầy đủ câu trả lời cho các mục 1, 2, 3, 4 trong brief của đối tác.
+                      <p className="text-[11px] text-[#5C6A79]">
+                        Đã sẵn sàng nội dung phản hồi các mục 1, 2, 3, 4 trong brief khách hàng.
                       </p>
                     </div>
 
                     <button
                       onClick={handleCopyProposalEmail}
-                      className="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition-colors shrink-0"
+                      className="px-4 py-2 rounded-full bg-[#11263B] text-[#F5F0E7] font-semibold text-xs flex items-center gap-1.5 cursor-pointer hover:bg-[#18334E] transition-colors"
                     >
-                      {copiedProposal ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                      <span>{copiedProposal ? 'Đã sao chép email!' : 'Sao Chép Nội Dung Email'}</span>
+                      {copiedProposal ? <Check className="w-3.5 h-3.5 text-[#B39765]" /> : <Copy className="w-3.5 h-3.5" />}
+                      <span>{copiedProposal ? 'Đã sao chép' : 'Sao chép email phản hồi'}</span>
                     </button>
                   </div>
 
-                  {/* Section 1: Báo giá */}
-                  <div className="p-5 rounded-2xl bg-[#070e1b] border border-slate-800 space-y-4">
-                    <div className="flex items-center gap-2 text-amber-400 font-bold text-sm">
-                      <DollarSign className="w-4 h-4" />
-                      <span>1. BÁO GIÁ TRỌN GÓI & CHI PHÍ HẠ TẦNG</span>
+                  <div className="p-4 rounded-xl bg-[#FAF7F2] border border-[#D3C6B3] space-y-3">
+                    <div className="flex items-center gap-1.5 font-bold text-xs text-[#11263B]">
+                      <DollarSign className="w-4 h-4 text-[#B39765]" />
+                      <span>BÁO GIÁ TRỌN GÓI</span>
                     </div>
 
-                    <div className="grid sm:grid-cols-2 gap-4">
-                      <div className="p-4 rounded-xl bg-[#0b1626] border border-slate-700/60">
-                        <div className="text-xs text-slate-400 uppercase font-semibold">Gói Cơ Bản (Theo Yêu Cầu)</div>
-                        <div className="font-serif-display font-bold text-xl text-amber-400 mt-1 mb-2">
-                          {PROPOSAL_DATA.pricing.basePackage}
-                        </div>
-                        <ul className="text-xs text-slate-300 space-y-1 list-disc list-inside">
-                          {PROPOSAL_DATA.pricing.baseIncludes.map((inc, i) => (
-                            <li key={i}>{inc}</li>
-                          ))}
-                        </ul>
+                    <div className="grid sm:grid-cols-2 gap-3 text-xs">
+                      <div className="p-3 rounded-lg bg-[#F5F0E7] border border-[#D3C6B3]/60">
+                        <div className="font-bold text-[#11263B]">Gói Cơ Bản: {PROPOSAL_DATA.pricing.basePackage}</div>
+                        <p className="text-[11px] text-[#5C6A79] mt-1">Đầy đủ tính năng, miễn phí 100% hosting & CDN Cloudflare.</p>
                       </div>
-
-                      <div className="p-4 rounded-xl bg-[#0b1626] border border-slate-700/60">
-                        <div className="text-xs text-slate-400 uppercase font-semibold">Tùy Chọn Thêm: Sticker Kéo Thả</div>
-                        <div className="font-serif-display font-bold text-xl text-sky-400 mt-1 mb-2">
-                          {PROPOSAL_DATA.pricing.optionalPackage}
-                        </div>
-                        <ul className="text-xs text-slate-300 space-y-1 list-disc list-inside">
-                          {PROPOSAL_DATA.pricing.optionalIncludes.map((inc, i) => (
-                            <li key={i}>{inc}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-
-                    <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs text-amber-200">
-                      💡 <strong>Combo Ưu Đãi:</strong> {PROPOSAL_DATA.pricing.totalCombo}. <em>Chi phí này đã trọn gói hạ tầng, không thu thêm phí hosting của khách hàng!</em>
-                    </div>
-                  </div>
-
-                  {/* Section 2: Kiến trúc chịu tải */}
-                  <div className="p-5 rounded-2xl bg-[#070e1b] border border-slate-800 space-y-3">
-                    <div className="flex items-center gap-2 text-sky-400 font-bold text-sm">
-                      <Server className="w-4 h-4" />
-                      <span>2. KIẾN TRÚC XỬ LÝ 100k - 200k LƯỢT TRUY CẬP ĐỘT BIẾN</span>
-                    </div>
-
-                    <div className="text-xs text-slate-300 space-y-2 leading-relaxed">
-                      <p>• <strong>Công nghệ sử dụng:</strong> {PROPOSAL_DATA.infrastructure.stack}.</p>
-                      <p>• <strong>Chiến lược chịu tải cao điểm:</strong> {PROPOSAL_DATA.infrastructure.burstProtection}. 99% nội dung tĩnh được phân phối qua hơn 300 trung tâm dữ liệu Cloudflare Edge, đảm bảo tải trang dưới 0.8 giây dù có 50.000 người vào cùng một thời điểm.</p>
-                      <p>• <strong>Bàn giao:</strong> {PROPOSAL_DATA.infrastructure.hostingCost}. Bàn giao 100% source code, tài khoản quản trị và video hướng dẫn chi tiết.</p>
-                    </div>
-                  </div>
-
-                  {/* Section 3: Tiến độ */}
-                  <div className="p-5 rounded-2xl bg-[#070e1b] border border-slate-800 space-y-3">
-                    <div className="flex items-center gap-2 text-amber-400 font-bold text-sm">
-                      <Calendar className="w-4 h-4" />
-                      <span>3. CAM KẾT TIẾN ĐỘ BÀN GIAO</span>
-                    </div>
-
-                    <div className="grid grid-cols-3 gap-3 text-center">
-                      <div className="p-3 rounded-xl bg-[#0b1626] border border-slate-700">
-                        <div className="text-[10px] text-slate-400 uppercase">Gửi Bản Demo</div>
-                        <div className="text-sm font-bold text-amber-400">{PROPOSAL_DATA.timeline.demoDate}</div>
-                      </div>
-                      <div className="p-3 rounded-xl bg-[#0b1626] border border-slate-700">
-                        <div className="text-[10px] text-slate-400 uppercase">Bàn Giao Bản Cuối</div>
-                        <div className="text-sm font-bold text-amber-400">{PROPOSAL_DATA.timeline.finalDelivery}</div>
-                      </div>
-                      <div className="p-3 rounded-xl bg-[#0b1626] border border-slate-700">
-                        <div className="text-[10px] text-slate-400 uppercase">Bảo Hành Sự Kiện</div>
-                        <div className="text-sm font-bold text-amber-400">{PROPOSAL_DATA.timeline.warranty}</div>
+                      <div className="p-3 rounded-lg bg-[#F5F0E7] border border-[#D3C6B3]/60">
+                        <div className="font-bold text-[#11263B]">Tùy chọn thêm: {PROPOSAL_DATA.pricing.optionalPackage}</div>
+                        <p className="text-[11px] text-[#5C6A79] mt-1">Mô-đun con tem/dấu mộc kéo thả & xuất ảnh bưu thiếp HD.</p>
                       </div>
                     </div>
                   </div>
 
-                  {/* Section 4: Kinh nghiệm & Thanh toán */}
-                  <div className="p-5 rounded-2xl bg-[#070e1b] border border-slate-800 space-y-3">
-                    <div className="font-bold text-white text-sm">
-                      4. SẢN PHẨM ĐÃ LÀM & PHƯƠNG THỨC THANH TOÁN
+                  <div className="p-4 rounded-xl bg-[#FAF7F2] border border-[#D3C6B3] space-y-2">
+                    <div className="flex items-center gap-1.5 font-bold text-xs text-[#11263B]">
+                      <Server className="w-4 h-4 text-[#B39765]" />
+                      <span>GIẢI PHÁP HẠ TẦNG CHỊU TẢI 200K VISITS</span>
                     </div>
-
-                    <div className="space-y-2 text-xs text-slate-300">
-                      {PROPOSAL_DATA.portfolio.map((p, i) => (
-                        <div key={i} className="p-2.5 rounded-lg bg-[#0b1626]">
-                          <span className="font-bold text-white">• {p.name}</span>{' '}
-                          <span className="text-amber-400">({p.traffic})</span>: {p.features}
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="pt-2 text-xs text-slate-400">
-                      <strong>Thanh toán:</strong> Chia 3 đợt theo đúng đề xuất (Cọc 30% - Nghiệm thu demo 40% - Kết thúc sự kiện bàn giao 30%).
-                    </div>
+                    <p className="text-xs text-[#5C6A79] leading-relaxed">
+                      Phân phối 99% tài nguyên tĩnh qua 300+ Edge Data Centers của Cloudflare. Thời gian phản hồi &lt;0.8 giây, an toàn tuyệt đối trước lưu lượng truy cập tăng vọt.
+                    </p>
                   </div>
-
                 </div>
               )}
 

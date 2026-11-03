@@ -195,7 +195,7 @@ export default function App() {
   const approvedWishesCount = cards.filter((c) => c.status === 'approved').length;
 
   return (
-    <div className="min-h-screen bg-[#070d18] text-slate-100 selection:bg-amber-400 selection:text-slate-950 font-sans">
+    <div className="min-h-screen bg-[#F5F0E7] text-[#1C2A39] selection:bg-[#B39765]/20 selection:text-[#11263B] font-sans">
       
       {/* Navbar with Live Countdown and Admin Trigger */}
       <Navbar 

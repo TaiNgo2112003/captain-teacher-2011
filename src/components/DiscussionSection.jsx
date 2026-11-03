@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MessageSquare, Image as ImageIcon, Send, Heart, Trash2, ShieldAlert } from 'lucide-react';
+import { Image as ImageIcon, Send, Heart, Trash2, CheckCircle2 } from 'lucide-react';
 
 export default function DiscussionSection({ topics, onAddComment, onLikeComment }) {
   const [activeTopicId, setActiveTopicId] = useState(topics[0]?.id || 'topic-1');
@@ -8,22 +8,23 @@ export default function DiscussionSection({ topics, onAddComment, onLikeComment 
   const [commentText, setCommentText] = useState('');
   const [attachedImages, setAttachedImages] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submittedSuccess, setSubmittedSuccess] = useState(false);
 
   const activeTopic = topics.find(t => t.id === activeTopicId) || topics[0];
 
-  // Handle uploading 1-3 images
+  // Upload 1-3 images
   const handleImagesUpload = (e) => {
     const files = Array.from(e.target.files);
     if (!files.length) return;
 
     if (attachedImages.length + files.length > 3) {
-      alert('Mỗi phản hồi chỉ được đính kèm tối đa 3 ảnh!');
+      alert('Mỗi câu chuyện chỉ được đính kèm tối đa 3 bức ảnh kỷ niệm.');
       return;
     }
 
     files.forEach((file) => {
-      if (file.size > 3 * 1024 * 1024) {
-        alert(`Ảnh ${file.name} vượt quá 3MB, vui lòng chọn ảnh nhẹ hơn!`);
+      if (file.size > 4 * 1024 * 1024) {
+        alert(`Ảnh ${file.name} vượt quá 4MB, vui lòng chọn ảnh nhẹ hơn.`);
         return;
       }
       const reader = new FileReader();
@@ -37,21 +38,19 @@ export default function DiscussionSection({ topics, onAddComment, onLikeComment 
     });
   };
 
-  // Remove single image
   const handleRemoveImage = (index) => {
     setAttachedImages(attachedImages.filter((_, i) => i !== index));
   };
 
-  // Submit comment
-  const handleSubmitComment = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!authorName.trim()) {
-      alert('Vui lòng nhập tên của bạn!');
+      alert('Vui lòng nhập tên của bạn.');
       return;
     }
     if (!commentText.trim() || commentText.trim().length < 5) {
-      alert('Vui lòng nhập nội dung chia sẻ (ít nhất 5 ký tự)!');
+      alert('Vui lòng nhập nội dung kỷ niệm (ít nhất 5 ký tự).');
       return;
     }
 
@@ -61,7 +60,7 @@ export default function DiscussionSection({ topics, onAddComment, onLikeComment 
       id: 'cmt-' + Date.now(),
       author: authorName.trim(),
       badge: authorBadge.trim() || 'Sinh viên',
-      avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(authorName)}`,
+      avatar: `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(authorName)}&backgroundColor=11263B,B39765,B9685C&textColor=F5F0E7`,
       content: commentText.trim(),
       images: attachedImages,
       likes: 1,
@@ -72,107 +71,106 @@ export default function DiscussionSection({ topics, onAddComment, onLikeComment 
     setTimeout(() => {
       onAddComment(activeTopicId, newComment);
       setIsSubmitting(false);
-
-      // Reset form
+      setSubmittedSuccess(true);
       setCommentText('');
       setAttachedImages([]);
-    }, 300);
+
+      setTimeout(() => setSubmittedSuccess(false), 2500);
+    }, 350);
   };
 
   return (
-    <section id="discussions" className="py-24 relative bg-[#070d18]">
+    <section id="dialogue" className="py-24 sm:py-32 bg-[#FAF7F2] border-t border-[#D3C6B3]/60 relative">
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-300 text-xs font-semibold uppercase tracking-widest mb-3">
-            <MessageSquare className="w-3.5 h-3.5" />
-            <span>Diễn Đàn Thảo Luận Mở</span>
+        <div className="max-w-2xl mx-auto text-center mb-16">
+          <div className="text-xs uppercase tracking-[0.25em] text-[#B39765] font-semibold mb-3">
+            Đối Thoại & Ký Ức
           </div>
-          <h2 className="font-serif-display font-bold text-3xl sm:text-4xl text-white mb-4">
-            Kỷ Niệm Hải Trình <span className="text-amber-400">Giảng Đường</span>
+          <h2 className="font-editorial text-3xl sm:text-5xl font-bold text-[#11263B] tracking-tight mb-4">
+            Ký Ức Giảng Đường
           </h2>
-          <p className="text-slate-300 text-sm sm:text-base">
-            Cùng chia sẻ những khoảnh khắc xúc động, những câu nói bất hủ và bức ảnh đáng nhớ nhất cùng các Vị Thuyền Trưởng.
+          <p className="text-sm sm:text-base text-[#5C6A79] leading-relaxed">
+            Bốn câu hỏi gợi mở những câu chuyện chưa từng kể giữa sinh viên và những người Thầy, người Cô đáng kính.
           </p>
         </div>
 
-        {/* 4 Topic Selector Tabs */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-          {topics.map((t) => {
+        {/* 4 Topic Questions - Editorial List Navigation */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+          {topics.map((t, idx) => {
             const isActive = t.id === activeTopicId;
             return (
               <button
                 key={t.id}
                 onClick={() => setActiveTopicId(t.id)}
-                className={`p-4 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
+                className={`p-5 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
                   isActive
-                    ? 'bg-gradient-to-br from-[#10243d] to-[#0c182a] border-amber-400/80 shadow-[0_0_20px_rgba(245,158,11,0.15)] ring-1 ring-amber-400/50'
-                    : 'bg-[#0b1626] border-slate-800 hover:border-slate-700 opacity-80 hover:opacity-100'
+                    ? 'bg-[#11263B] text-[#F5F0E7] border-[#11263B] shadow-md'
+                    : 'bg-[#F5F0E7] text-[#1C2A39] border-[#D3C6B3]/80 hover:border-[#11263B]/50'
                 }`}
               >
                 <div>
-                  <h4 className="text-sm font-bold text-white mb-2 line-clamp-2">
+                  <span className={`text-[10px] font-mono tracking-widest uppercase block mb-2 ${
+                    isActive ? 'text-[#B39765]' : 'text-[#8C98A4]'
+                  }`}>
+                    Câu hỏi 0{idx + 1}
+                  </span>
+                  <h3 className="font-editorial font-bold text-sm leading-snug line-clamp-3">
                     {t.title}
-                  </h4>
-                  <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
-                    {t.description}
-                  </p>
+                  </h3>
                 </div>
-                <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
-                  <span className="text-amber-400 font-semibold">
-                    {t.comments?.filter(c => c.status === 'approved').length || 0} phản hồi
-                  </span>
-                  <span className={`text-[10px] uppercase font-bold tracking-wider ${isActive ? 'text-amber-300' : 'text-slate-500'}`}>
-                    {isActive ? 'Đang mở' : 'Xem ngay'}
-                  </span>
+
+                <div className="pt-4 mt-4 border-t border-current/15 flex items-center justify-between text-[11px] opacity-75">
+                  <span>{t.comments?.filter(c => c.status === 'approved').length || 0} chia sẻ</span>
+                  <span className="font-medium">{isActive ? 'Đang đọc' : 'Mở xem'}</span>
                 </div>
               </button>
             );
           })}
         </div>
 
-        {/* Active Topic Discussion Panel */}
-        <div className="bg-[#0b1626] border border-slate-800 rounded-3xl p-6 sm:p-10 shadow-2xl">
+        {/* Active Question Reading & Storytelling Arena */}
+        <div className="bg-[#F5F0E7] border border-[#D3C6B3] rounded-3xl p-6 sm:p-10 shadow-[0_8px_30px_rgba(17,38,59,0.04)]">
           
-          {/* Active Topic Banner */}
-          <div className="border-b border-slate-800 pb-6 mb-8">
-            <span className="text-xs uppercase font-bold text-amber-400 tracking-wider">
-              Chủ Đề Đang Thảo Luận:
+          {/* Active Question Prompt */}
+          <div className="border-b border-[#D3C6B3]/60 pb-6 mb-8">
+            <span className="text-[10px] uppercase font-mono tracking-widest text-[#B39765] block mb-1">
+              Chủ Đề Đang Mở
             </span>
-            <h3 className="font-serif-display font-bold text-2xl sm:text-3xl text-white mt-1 mb-2">
+            <h3 className="font-editorial text-2xl sm:text-3xl font-bold text-[#11263B] mb-2 leading-tight">
               {activeTopic.title}
             </h3>
-            <p className="text-sm text-slate-300 max-w-3xl leading-relaxed">
+            <p className="text-sm text-[#5C6A79] leading-relaxed max-w-3xl">
               {activeTopic.description}
             </p>
           </div>
 
-          {/* Form to submit comment with 1-3 images */}
-          <form onSubmit={handleSubmitComment} className="bg-[#070e1b] border border-slate-800 rounded-2xl p-5 sm:p-6 mb-10 space-y-4">
-            <div className="text-xs font-bold text-amber-400 uppercase tracking-wider mb-1">
-              Gửi phản hồi của bạn vào chủ đề này
+          {/* Form to submit response */}
+          <form onSubmit={handleSubmit} className="bg-[#FAF7F2] border border-[#D3C6B3] rounded-2xl p-5 sm:p-7 mb-12 space-y-4">
+            <div className="text-xs font-semibold text-[#11263B] uppercase tracking-wider">
+              Chia sẻ kỷ niệm của bạn về chủ đề này
             </div>
 
-            <div className="grid sm:grid-cols-2 gap-4">
+            <div className="grid sm:grid-cols-2 gap-3">
               <div>
                 <input
                   type="text"
-                  placeholder="Tên của bạn (VD: Trần Văn Đức)*"
+                  placeholder="Tên của bạn (VD: Trần Văn Đức) *"
                   value={authorName}
                   onChange={(e) => setAuthorName(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl bg-[#0b1626] border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-amber-400"
+                  className="w-full px-3.5 py-2.5 rounded-lg bg-[#F5F0E7] border border-[#D3C6B3] text-xs text-[#1C2A39] placeholder-[#8C98A4] focus:outline-none focus:border-[#11263B]"
                   required
                 />
               </div>
               <div>
                 <input
                   type="text"
-                  placeholder="Lớp / Khóa (VD: K65 - CNTT, Cựu sinh viên...)"
+                  placeholder="Lớp / Khoa (VD: K65 - CNTT, Cựu sinh viên...)"
                   value={authorBadge}
                   onChange={(e) => setAuthorBadge(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl bg-[#0b1626] border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-amber-400"
+                  className="w-full px-3.5 py-2.5 rounded-lg bg-[#F5F0E7] border border-[#D3C6B3] text-xs text-[#1C2A39] placeholder-[#8C98A4] focus:outline-none focus:border-[#11263B]"
                 />
               </div>
             </div>
@@ -180,20 +178,20 @@ export default function DiscussionSection({ topics, onAddComment, onLikeComment 
             <div>
               <textarea
                 rows={3}
-                placeholder="Chia sẻ câu chuyện, kỷ niệm hoặc gửi lời tâm sự của bạn tại đây..."
+                placeholder="Viết câu chuyện hoặc suy nghĩ chân thật của bạn..."
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-[#0b1626] border border-slate-700 text-white placeholder-slate-500 text-xs leading-relaxed focus:outline-none focus:border-amber-400"
+                className="w-full px-3.5 py-3 rounded-lg bg-[#F5F0E7] border border-[#D3C6B3] text-xs leading-relaxed text-[#1C2A39] placeholder-[#8C98A4] focus:outline-none focus:border-[#11263B]"
                 required
               />
             </div>
 
-            {/* Upload 1-3 Images Row */}
+            {/* Photo Attachments & Submit */}
             <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
               <div className="flex items-center gap-3">
-                <label className="flex items-center gap-2 px-3 py-2 rounded-xl bg-[#0b1626] hover:bg-slate-800 border border-slate-700 text-slate-300 text-xs font-medium cursor-pointer transition-colors">
-                  <ImageIcon className="w-4 h-4 text-amber-400" />
-                  <span>Đính kèm 1-3 ảnh ({attachedImages.length}/3)</span>
+                <label className="flex items-center gap-2 px-3 py-2 rounded-lg border border-[#D3C6B3] bg-[#F5F0E7] text-[#1C2A39] text-xs cursor-pointer hover:border-[#11263B] transition-colors">
+                  <ImageIcon className="w-3.5 h-3.5 text-[#B39765]" />
+                  <span>Kèm ảnh kỷ niệm ({attachedImages.length}/3)</span>
                   <input
                     type="file"
                     accept="image/*"
@@ -204,16 +202,15 @@ export default function DiscussionSection({ topics, onAddComment, onLikeComment 
                   />
                 </label>
 
-                {/* Attached image thumbnails */}
                 {attachedImages.map((img, idx) => (
-                  <div key={idx} className="relative group w-10 h-10 rounded-lg overflow-hidden border border-slate-700">
+                  <div key={idx} className="relative group w-9 h-9 rounded overflow-hidden border border-[#D3C6B3]">
                     <img src={img} alt="Thumbnail" className="w-full h-full object-cover" />
                     <button
                       type="button"
                       onClick={() => handleRemoveImage(idx)}
-                      className="absolute inset-0 bg-black/60 flex items-center justify-center text-rose-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="absolute inset-0 bg-black/60 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity"
                     >
-                      <Trash2 className="w-3.5 h-3.5" />
+                      <Trash2 className="w-3 h-3 text-[#B9685C]" />
                     </button>
                   </div>
                 ))}
@@ -222,90 +219,103 @@ export default function DiscussionSection({ topics, onAddComment, onLikeComment 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 text-slate-950 font-bold text-xs shadow-md hover:scale-[1.02] active:scale-[0.99] transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                className="px-6 py-2.5 rounded-full bg-[#11263B] hover:bg-[#18334E] text-[#F5F0E7] text-xs font-semibold uppercase tracking-wider transition-all duration-200 cursor-pointer disabled:opacity-50 flex items-center gap-2"
               >
-                <Send className="w-3.5 h-3.5" />
-                <span>{isSubmitting ? 'Đang gửi...' : 'Đăng Bình Luận'}</span>
+                {submittedSuccess ? (
+                  <>
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#B39765]" />
+                    <span>Đã gửi chia sẻ</span>
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-3.5 h-3.5" />
+                    <span>{isSubmitting ? 'Đang gửi...' : 'Gửi câu chuyện'}</span>
+                  </>
+                )}
               </button>
             </div>
           </form>
 
-          {/* Comments List */}
+          {/* List of responses formatted like letters in an anthology */}
           <div className="space-y-6">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 border-b border-slate-800 pb-3">
-              Danh sách phản hồi ({activeTopic.comments?.filter(c => c.status === 'approved').length || 0})
-            </h4>
+            <div className="text-xs font-mono uppercase tracking-widest text-[#B39765] border-b border-[#D3C6B3]/60 pb-3">
+              Những Dòng Ký Ức Đã Gửi Về ({activeTopic.comments?.filter(c => c.status === 'approved').length || 0})
+            </div>
 
             {(!activeTopic.comments || activeTopic.comments.filter(c => c.status === 'approved').length === 0) ? (
-              <div className="text-center py-10 text-slate-500 text-xs">
-                Chưa có phản hồi nào trong chủ đề này. Hãy là người đầu tiên chia sẻ!
+              <div className="text-center py-10 text-xs text-[#5C6A79] italic">
+                Chưa có câu chuyện nào ở chủ đề này. Hãy là người đầu tiên ghi dấu kỷ niệm!
               </div>
             ) : (
               activeTopic.comments
                 .filter(c => c.status === 'approved')
                 .map((cmt) => (
-                  <div
+                  <article
                     key={cmt.id}
-                    className="flex items-start gap-4 p-5 rounded-2xl bg-[#081322] border border-slate-800/80 hover:border-slate-700/80 transition-colors"
+                    className="p-5 sm:p-6 rounded-2xl bg-[#FAF7F2] border border-[#D3C6B3]/60 space-y-3"
                   >
-                    {/* Avatar */}
-                    <img
-                      src={cmt.avatar || `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(cmt.author)}`}
-                      alt={cmt.author}
-                      className="w-10 h-10 rounded-xl bg-slate-800 object-cover border border-slate-700 shrink-0"
-                    />
-
-                    {/* Content area */}
-                    <div className="flex-1">
-                      <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
-                        <div className="flex items-center gap-2">
-                          <span className="font-bold text-sm text-white">{cmt.author}</span>
-                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
+                    {/* Author Meta */}
+                    <div className="flex items-center justify-between gap-2 border-b border-[#D3C6B3]/40 pb-3">
+                      <div className="flex items-center gap-3">
+                        <img
+                          src={cmt.avatar}
+                          alt={cmt.author}
+                          className="w-8 h-8 rounded-full bg-[#11263B] object-cover"
+                        />
+                        <div>
+                          <div className="font-editorial font-bold text-sm text-[#11263B]">
+                            {cmt.author}
+                          </div>
+                          <div className="text-[10px] text-[#5C6A79]">
                             {cmt.badge}
-                          </span>
+                          </div>
                         </div>
-                        <span className="text-[11px] text-slate-500">{cmt.createdAt}</span>
                       </div>
 
-                      <p className="text-xs sm:text-sm text-slate-200 leading-relaxed mb-3 whitespace-pre-line">
-                        {cmt.content}
-                      </p>
-
-                      {/* Display attached images if any */}
-                      {cmt.images && cmt.images.length > 0 && (
-                        <div className="flex flex-wrap gap-2 mb-3">
-                          {cmt.images.map((img, i) => (
-                            <a
-                              key={i}
-                              href={img}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="block rounded-xl overflow-hidden border border-slate-700 hover:border-amber-400 transition-colors"
-                            >
-                              <img
-                                src={img}
-                                alt="Ảnh đính kèm"
-                                className="w-24 h-24 sm:w-28 sm:h-28 object-cover hover:scale-105 transition-transform"
-                              />
-                            </a>
-                          ))}
-                        </div>
-                      )}
-
-                      {/* Comment interactions */}
-                      <div className="flex items-center gap-4 text-xs text-slate-400">
-                        <button
-                          type="button"
-                          onClick={() => onLikeComment(activeTopic.id, cmt.id)}
-                          className="flex items-center gap-1.5 hover:text-rose-400 transition-colors cursor-pointer"
-                        >
-                          <Heart className="w-3.5 h-3.5 fill-rose-500/20 text-rose-400" />
-                          <span>{cmt.likes || 0} thích</span>
-                        </button>
+                      <div className="text-[10px] font-mono text-[#8C98A4]">
+                        {cmt.createdAt}
                       </div>
-
                     </div>
-                  </div>
+
+                    {/* Content text */}
+                    <p className="font-editorial text-sm sm:text-base text-[#1C2A39] leading-relaxed whitespace-pre-line italic">
+                      “{cmt.content}”
+                    </p>
+
+                    {/* Attached Photos (Polaroid style) */}
+                    {cmt.images && cmt.images.length > 0 && (
+                      <div className="flex flex-wrap gap-2 pt-2">
+                        {cmt.images.map((img, i) => (
+                          <a
+                            key={i}
+                            href={img}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="block rounded-lg overflow-hidden border border-[#D3C6B3] p-1 bg-white hover:border-[#11263B] transition-colors"
+                          >
+                            <img
+                              src={img}
+                              alt="Ảnh đính kèm"
+                              className="w-24 h-24 sm:w-28 sm:h-28 object-cover rounded"
+                            />
+                          </a>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Like reaction */}
+                    <div className="pt-2 flex items-center justify-between text-xs text-[#5C6A79]">
+                      <button
+                        type="button"
+                        onClick={() => onLikeComment(activeTopic.id, cmt.id)}
+                        className="flex items-center gap-1.5 hover:text-[#B9685C] transition-colors cursor-pointer"
+                      >
+                        <Heart className="w-3.5 h-3.5" />
+                        <span className="font-mono text-xs">{cmt.likes || 0} đồng cảm</span>
+                      </button>
+                    </div>
+
+                  </article>
                 ))
             )}
           </div>

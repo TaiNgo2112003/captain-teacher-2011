@@ -2,49 +2,92 @@
 
 @layer base {
   body {
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #1C2A39;
+    background-color: #F5F0E7;
+  }
+
+  h1, h2, h3, h4, .font-serif {
+    font-family: 'Noto Serif', Georgia, serif;
+    letter-spacing: -0.015em;
   }
 }
 
-.font-serif-display {
-  font-family: 'Playfair Display', Georgia, serif;
+.font-editorial {
+  font-family: 'Noto Serif', Georgia, serif;
+}
+
+.font-sans-clean {
+  font-family: 'Be Vietnam Pro', sans-serif;
 }
 
 .font-handwriting {
   font-family: 'Caveat', cursive;
 }
 
-/* Custom subtle nautical / star animation */
-@keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-8px) rotate(1deg); }
+/* Subtle archival paper grain and ruling line utilities */
+.paper-warm {
+  background-color: #F5F0E7;
 }
 
-@keyframes pulseGlow {
-  0%, 100% { opacity: 0.4; transform: scale(1); }
-  50% { opacity: 0.8; transform: scale(1.05); }
+.paper-card {
+  background-color: #FAF7F2;
+  box-shadow: 0 4px 20px -2px rgba(17, 38, 59, 0.06), 0 1px 3px 0 rgba(17, 38, 59, 0.04);
 }
 
-.animate-float-slow {
-  animation: float 6s ease-in-out infinite;
+.navy-journal {
+  background-color: #11263B;
+  color: #F5F0E7;
 }
 
-.animate-pulse-glow {
-  animation: pulseGlow 4s ease-in-out infinite;
+.border-subtle {
+  border-color: rgba(179, 151, 101, 0.25);
+}
+
+.border-navy-subtle {
+  border-color: rgba(17, 38, 59, 0.12);
+}
+
+/* Maritime dashed charting line */
+.charting-line {
+  background-image: repeating-linear-gradient(to right, #B39765 0, #B39765 4px, transparent 4px, transparent 8px);
+}
+
+/* Editorial quote mark styling */
+.editorial-quote::before {
+  content: '“';
+  font-family: 'Noto Serif', serif;
+  font-size: 3.5rem;
+  line-height: 0;
+  position: absolute;
+  top: 1.5rem;
+  left: 0.5rem;
+  color: #B39765;
+  opacity: 0.3;
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0b1526;
+  background: #F5F0E7;
 }
 ::-webkit-scrollbar-thumb {
-  background: #233554;
-  border-radius: 4px;
+  background: #D3C6B3;
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #d97706;
+  background: #B39765;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

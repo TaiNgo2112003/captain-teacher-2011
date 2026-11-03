@@ -1,62 +1,48 @@
-# ⚓️ Captain Teacher 20/11 - Hải Trình Tri Ân Người Thuyền Trưởng
+# ⚓️ The Captain’s Journal — Hải Trình Tri Ân 20/11
 
-Trang web Landing Page tương tác kỷ niệm ngày Nhà giáo Việt Nam 20/11 dành cho Sinh viên và Giảng viên theo phong cách Key Visual **"Captain Teacher"**.
+> *“Có những người không đi cùng ta đến cuối hành trình, nhưng đã giúp ta tìm thấy phương hướng.”*
 
-Live Demo: [https://taingo2112003.github.io/captain-teacher-2011/](https://taingo2112003.github.io/captain-teacher-2011/)
+Trang web Digital Tribute Experience tri ân Quý Thầy Cô nhân ngày Nhà giáo Việt Nam 20/11 dành cho Sinh viên và Giảng viên theo phong cách **Editorial × Nautical × Emotional × Timeless**.
 
----
-
-## 🌟 Tính Năng Nổi Bật
-
-### 1. Key Visual "Captain Teacher" Độc Đáo
-- Tôn vinh hình ảnh Người Thầy thời đại mới như một **Vị Thuyền Trưởng** can trường, vững tay lái vượt qua sóng gió đồ án, bài tập và deadline để đưa bao thế hệ sinh viên cập bến tri thức.
-- Bố cục biên tập (editorial layout), không bị AI hóa: tông màu Oceanic Navy & Brass Gold sang trọng, ấm áp.
-
-### 2. Xưởng Chế Tác Thiệp Điện Tử (Card Creator)
-- **4 Phong cách thiệp độc quyền**: Hải Trình Hoàng Kim, Sổ Nhật Ký Viễn Dương, Bảng Đen Giảng Đường, Ngọn Hải Đăng Rạng Rỡ.
-- Form cá nhân hóa người nhận (Thầy/Cô, Khoa/Bộ môn), người gửi (Lớp/Khóa), đính kèm ảnh kỷ niệm.
-- **Hệ thống Sticker Kéo Thả (Drag & Drop)**: Dán sticker huy hiệu (Thuyền trưởng 5 sao ⚓️, Kim chỉ nam 🧭, Phao cứu sinh 🛟, Điểm 10 tuyệt đối 📜, Hoa tri ân 🌹...) trực tiếp lên mặt thiệp.
-- Gợi ý câu chúc hay theo phong cách trang trọng, hài hước hoặc hoài niệm.
-- Hiệu ứng pháo hoa ăn mừng khi gửi thiệp (`canvas-confetti`).
-
-### 3. Tường Lời Chúc (Wish Wall)
-- Danh sách thiệp gửi về thời gian thực, có chế độ ghim bài nổi bật, bộ lọc tìm kiếm theo tên Thầy Cô, Khoa, ảnh đính kèm.
-- Nút thả tim ❤️ và modal xem thiệp phóng to chuẩn typography chữ viết tay.
-
-### 4. Diễn Đàn 4 Chủ Đề Thảo Luận
-1. ⚓️ *"Chiếc phao cứu sinh"* – Kỷ niệm qua môn thần kỳ nhờ Thầy/Cô.
-2. 🧭 *"Kim chỉ nam"* – Câu nói bất hủ của Giảng viên làm bạn nhớ mãi.
-3. 📸 *"Góc ảnh Thuyền Trưởng"* – Khoe khoảnh khắc đáng yêu cùng Thầy Cô.
-4. 💌 *"Hải trình giấu kín"* – Lời tri ân chưa từng dám nói trước mặt Giảng viên.
-- Hỗ trợ gửi phản hồi kèm **1-3 ảnh đính kèm** thực tế.
-
-### 5. Bảng Điều Khiển Quản Trị (Admin Demo)
-- Truy cập bảo mật bằng mã PIN: `2011`.
-- Duyệt / Ẩn thiệp và bình luận vi phạm.
-- Bộ lọc từ nhạy cảm (Censorship Filter) tự động gắn cờ hoặc che `***`.
-- Cơ chế chống spam (Rate-limiting 30s, Cloudflare Turnstile, kiểm tra trùng lặp).
-- **Tab Đề Xuất Báo Giá & Kiến Trúc Kỹ Thuật (RFP)**: Sẵn sàng gửi cho đối tác với phương án chịu tải 200.000 lượt truy cập đột biến.
+🌐 **Website Trực Tiếp (GitHub Pages)**: [https://taingo2112003.github.io/captain-teacher-2011/](https://taingo2112003.github.io/captain-teacher-2011/)
 
 ---
 
-## 🛠️ Công Nghệ Sử Dụng
+## 🧭 Tinh Thần Thiết Kế (Redesign Philosophy)
 
-- **Frontend**: React 19, Tailwind CSS v4, Lucide React, Canvas Confetti.
-- **Build tool**: Vite 8.
-- **Lưu trữ dữ liệu**: LocalStorage + Edge Ready.
-- **Triển khai**: GitHub Pages & GitHub Actions.
+Website được tái thiết kế toàn diện, loại bỏ hoàn toàn cảm giác "AI-generated" hoặc phong cách SaaS thông thường:
+- **Tone & Mood**: Tĩnh lặng, trang trọng, giàu cảm xúc và sâu lắng.
+- **Bảng màu di sản**: Deep Navy (`#11263B`), Warm Ivory (`#F5F0E7`), Muted Gold (`#B39765`), Sand (`#D3C6B3`), Terracotta Wax (`#B9685C`).
+- **Typography biên tập**: Sự kết hợp giữa `Noto Serif` (tiêu đề uy nghiêm, giàu chất văn học) và `Be Vietnam Pro` (thân bài thanh thoát, dễ đọc) cùng nét chữ ký viết tay `Caveat`.
+- **Họa tiết hàng hải tinh tế**: Những đường kẻ hải trình, vòng tròn tọa độ viễn dương, con tem bưu chính cổ điển và dấu sáp niêm phong.
 
 ---
 
-## 🚀 Khởi Chạy Local
+## 🏛️ Trải Nghiệm Các Khu Vực (Sections)
+
+1. **Section A — Hero Artwork**: Khởi đầu với câu danh ngôn dẫn lối, tiêu đề lớn giàu sức nặng typography, mở ra cuốn hải trình tri ân.
+2. **Section B — Câu Chuyện Captain Teacher**: Khắc họa sâu sắc hình ảnh người Thầy trao chiếc la bàn tri thức để sinh viên tự mình cầm lái con thuyền cuộc đời.
+3. **Section C — Digital Postcard Studio**: Xưởng chế tác bưu thiếp với 4 chất liệu giấy (*Bưu Thiếp Viễn Dương*, *Sổ Hải Trình Hoàng Gia*, *Bản In Khắc Giảng Đường*, *Hải Đăng Tối Giản*), hỗ trợ kẹp ảnh kỷ niệm và dấu mộc bưu chính kéo thả.
+4. **Section D — Tường Lời Chúc (The Archive)**: Bộ sưu tập bưu thiếp và kỷ vật lưu giữ tình cảm sinh viên - giảng viên qua các niên khóa.
+5. **Section E — Ký Ức Giảng Đường (4 Chủ Đề Đối Thoại)**:
+   - *Một bài học bạn vẫn mang theo đến hôm nay?*
+   - *Có điều gì bạn chưa kịp nói với thầy cô?*
+   - *Khoảnh khắc nào ở giảng đường khiến bạn nhớ mãi?*
+   - *Ai là người đã giúp bạn tự tin chọn hướng đi của mình?*
+6. **Section F — Closing**: Lời cảm ơn sâu sắc và lời chúc trang trọng gửi đến toàn thể Thầy Cô nhân ngày 20/11.
+7. **Bảng Điều Khiển Admin (Mã PIN: `2011`)**: Kiểm duyệt bài viết, bộ lọc từ nhạy cảm, chống spam và bản đề xuất giải pháp kỹ thuật chịu tải 200.000 lượt truy cập.
+
+---
+
+## 🚀 Triển Khai & Khởi Chạy Local
 
 ```bash
 # Cài đặt thư viện
 npm install
 
-# Chạy server phát triển
+# Môi trường phát triển
 npm run dev
 
-# Đóng gói sản phẩm
-npm run build
+# Đóng gói và Deploy lên GitHub Pages
+npm run deploy
 ```
