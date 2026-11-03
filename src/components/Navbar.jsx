@@ -80,6 +80,20 @@ export default function Navbar({ version, currentPage, onSelectPage }) {
             </button>
 
             <button
+              onClick={() => onSelectPage('gallery3d')}
+              className={`px-3.5 py-1.5 rounded-full font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
+                currentPage === 'gallery3d'
+                  ? 'bg-gradient-to-r from-pink-500 via-purple-600 to-cyan-500 text-white shadow-[0_0_15px_rgba(0,240,255,0.4)]'
+                  : 'opacity-70 hover:opacity-100 hover:bg-black/5'
+              }`}
+            >
+              <span>✨ 3D Động Ảnh</span>
+              <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-gradient-to-r from-pink-500 to-cyan-400 text-white font-extrabold animate-pulse">
+                3D MỚI
+              </span>
+            </button>
+
+            <button
               onClick={() => onSelectPage('admin')}
               className={`px-3.5 py-1.5 rounded-full font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
                 currentPage === 'admin'
@@ -172,6 +186,18 @@ export default function Navbar({ version, currentPage, onSelectPage }) {
             >
               <span>🧭 La Bàn Thuyền Trưởng & Bằng Khen</span>
               <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-700 font-bold">Hot</span>
+            </button>
+
+            <button
+              onClick={() => { onSelectPage('gallery3d'); setMobileMenuOpen(false); }}
+              className={`w-full text-left p-2.5 rounded-xl text-xs font-semibold flex items-center justify-between ${
+                currentPage === 'gallery3d' ? 'bg-gradient-to-r from-pink-500 via-purple-600 to-cyan-500 text-white font-bold' : 'bg-black/5'
+              }`}
+            >
+              <span className="flex items-center gap-1.5">
+                <span>✨ Ký Ức 3D Động Ảnh Sắc Màu</span>
+              </span>
+              <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-cyan-400 text-black font-extrabold">3D MỚI</span>
             </button>
 
             <button

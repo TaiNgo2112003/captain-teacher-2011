@@ -22,6 +22,11 @@ export default function HeroSection({ totalWishes, version }) {
           <div className="absolute inset-8 border-2 border-[#C5A869]/20 rounded-3xl pointer-events-none" />
         ) : version?.id === 'dawn' ? (
           <div className="absolute top-1/4 right-1/4 w-96 h-96 rounded-full bg-gradient-to-tr from-[#D97757]/15 to-[#D4A373]/15 blur-3xl pointer-events-none" />
+        ) : version?.id === 'kinetic3d' ? (
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-pink-500/20 via-purple-600/20 to-cyan-400/20 blur-3xl animate-pulse" />
+            <div className="absolute -left-20 bottom-10 w-80 h-80 rounded-full bg-cyan-400/15 blur-2xl" />
+          </div>
         ) : version?.id === 'modern' ? (
           <div className="absolute right-10 top-20 text-[180px] font-bold font-syne opacity-5 select-none text-[#0047BB]">
             20/11

@@ -230,5 +230,51 @@ export const VERSIONS = [
       p2: "Người Thầy hôm nay là người mentor đồng hành, người khích lệ sinh viên dám nghĩ khác, dám chấp nhận thử thách và không bao giờ chùn bước trước sóng lớn.",
       quote: "“Chúng em tự hào dong buồm ra khơi vì biết rằng phía sau luôn có điểm tựa vững chãi từ những người Thuyền Trưởng kiệt xuất.”"
     }
+  },
+  {
+    id: 'kinetic3d',
+    name: "06. Kinetic 3D Prism",
+    shortName: "Kinetic 3D",
+    subtitle: "Spatial 3D × Dynamic Motion Photo × Sắc Màu Rực Rỡ",
+    badge: "Bản 3D Động Ảnh • Sắc Màu Mới",
+    swatches: ['#0A0F1D', '#00F0FF', '#FF007A', '#FFBE0B'],
+    theme: {
+      pageBg: 'bg-[#070B14]',
+      pageText: 'text-[#F3F4F6]',
+      surfaceBg: 'bg-[#0F172A]/90',
+      surfaceDarkBg: 'bg-[#050811]',
+      surfaceDarkText: 'text-[#FFFFFF]',
+      surfaceAccentBg: 'bg-gradient-to-r from-[#FF007A] via-[#7928CA] to-[#00F0FF]',
+      borderSubtle: 'border-cyan-500/30',
+      borderStrong: 'border-cyan-400',
+      borderGold: 'border-[#FFBE0B]',
+      accentColor: '#00F0FF',
+      accentSecondary: '#FF007A',
+      accentText: 'text-cyan-400',
+      btnPrimary: 'bg-gradient-to-r from-[#FF007A] via-[#7928CA] to-[#00F0FF] text-white hover:opacity-95 shadow-[0_0_20px_rgba(0,240,255,0.35)]',
+      btnSecondary: 'border border-cyan-500/60 bg-[#0F172A] text-cyan-300 hover:bg-cyan-950/50',
+      fontHeading: 'font-syne',
+      fontBody: 'font-sans-clean',
+      cardStyle: 'border border-cyan-500/30 bg-[#0F172A]/90 backdrop-blur-md shadow-[0_8px_32px_rgba(0,240,255,0.12)]',
+      navBg: 'bg-[#070B14]/95 border-b border-cyan-500/30',
+      emblem: '✨'
+    },
+    hero: {
+      tag: "SPATIAL 3D TRIBUTE // SPECTRUM 2026",
+      coordinates: "DIMENSION: 3D // LIGHT SPECTRUM: 380-750nm",
+      quote: "“Từng khoảnh khắc dìu dắt của người Thầy bừng sáng như dải quang phổ rực rỡ, chiếu rọi mọi không gian trưởng thành của học trò.”",
+      quoteAuthor: "— Không Gian Ký Ức 3D",
+      headline: "Ký Ức Động Ảnh 3D — Sắc Màu Tri Ân Vô Tận.",
+      description: "Trải nghiệm không gian 3 chiều sống động: nơi từng bức ảnh kỷ niệm giảng đường chuyển động theo nhịp ánh sáng đa sắc, phản chiếu tình thầy trò thiêng liêng qua chiều sâu nghệ thuật thị giác.",
+      ctaPrimary: "Khám phá 3D Động Ảnh",
+      ctaSecondary: "Gửi lời tri ân 3D"
+    },
+    story: {
+      tag: "HẢI TRÌNH ÁNH SÁNG 3 CHIỀU",
+      title: "Khi ký ức vượt khỏi khung ảnh phẳng để sống dậy thành xúc cảm.",
+      p1: "Mỗi lời dạy của thầy cô không phải con chữ nằm yên trên trang vở, mà là nguồn năng lượng chuyển động liên tục, đồng hành cùng sinh viên qua từng thăng trầm của tuổi trẻ.",
+      p2: "Phiên bản 3D Kinetic Prism tái hiện khoảnh khắc tri ân với hiệu ứng chuyển động quang học, hạt ánh sáng nổi và bảng màu quang phổ rực rỡ, tôn vinh hình tượng Thuyền Trưởng như nguồn năng lượng thắp sáng muôn phương.",
+      quote: "“Dù thời gian trôi đi, ngọn lửa mà người Thuyền Trưởng trao gửi vẫn luôn chuyển động và rực cháy trong tim mỗi chúng em.”"
+    }
   }
 ];

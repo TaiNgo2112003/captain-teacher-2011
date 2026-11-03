@@ -11,6 +11,7 @@ import MuseumPage from './components/MuseumPage';
 import CompassQuizPage from './components/CompassQuizPage';
 import CardModal from './components/CardModal';
 import AdminPage from './components/AdminPage';
+import MotionGallery3DPage from './components/MotionGallery3DPage';
 import { 
   DEFAULT_CARDS, 
   DISCUSSION_TOPICS, 
@@ -19,12 +20,12 @@ import {
 import { VERSIONS } from './data/versionsConfig';
 
 export default function App() {
-  // Page state: 'home', 'museum', 'quiz', 'admin'
+  // Page state: 'home', 'museum', 'quiz', 'admin', 'gallery3d'
   const [currentPage, setCurrentPage] = useState(() => {
     try {
       const urlParams = new URLSearchParams(window.location.search);
       const pageParam = urlParams.get('page');
-      if (pageParam && ['home', 'museum', 'quiz', 'admin'].includes(pageParam)) {
+      if (pageParam && ['home', 'museum', 'quiz', 'admin', 'gallery3d'].includes(pageParam)) {
         return pageParam;
       }
       return 'home';
@@ -319,7 +320,14 @@ export default function App() {
           />
         )}
 
-        {/* Page 4: Trang Quản Trị Admin Chuyên Biệt */}
+        {/* Page 4: Ký Ức 3D Động Ảnh Sắc Màu */}
+        {currentPage === 'gallery3d' && (
+          <MotionGallery3DPage 
+            version={activeVersion}
+          />
+        )}
+
+        {/* Page 5: Trang Quản Trị Admin Chuyên Biệt */}
         {currentPage === 'admin' && (
           <AdminPage
             version={activeVersion}

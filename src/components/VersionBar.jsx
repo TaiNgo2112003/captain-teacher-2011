@@ -21,7 +21,7 @@ export default function VersionBar({ activeVersionId, onSelectVersion }) {
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-xs font-bold uppercase tracking-wider text-[#F5F0E7]">
-                  5 Phiên Bản Thiết Kế (Design Concepts):
+                  6 Phiên Bản Thiết Kế (Design Concepts):
                 </span>
                 <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-[#182C44] text-[#B39765] font-semibold hidden sm:inline-block">
                   Đang xem: {activeVersion.name}
@@ -47,9 +47,9 @@ export default function VersionBar({ activeVersionId, onSelectVersion }) {
 
         </div>
 
-        {/* 5 Selectable Version Cards Row (Expandable) */}
+        {/* 6 Selectable Version Cards Row (Expandable) */}
         {isExpanded && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 mt-2.5 pt-2.5 border-t border-white/10">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 mt-2.5 pt-2.5 border-t border-white/10">
             {VERSIONS.map((v) => {
               const isActive = v.id === activeVersionId;
               return (
@@ -64,7 +64,14 @@ export default function VersionBar({ activeVersionId, onSelectVersion }) {
                 >
                   <div>
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-sm">{v.theme.emblem}</span>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-sm">{v.theme.emblem}</span>
+                        {v.id === 'kinetic3d' && (
+                          <span className="text-[8px] font-extrabold px-1 py-0.2 rounded bg-gradient-to-r from-pink-500 to-cyan-400 text-white animate-pulse">
+                            3D MỚI
+                          </span>
+                        )}
+                      </div>
                       {isActive && (
                         <span className="w-4 h-4 rounded-full bg-[#B39765] text-[#0A131F] flex items-center justify-center">
                           <Check className="w-3 h-3 stroke-[3]" />
