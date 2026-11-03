@@ -7,6 +7,8 @@ import CardCreator from './components/CardCreator';
 import WishWall from './components/WishWall';
 import DiscussionSection from './components/DiscussionSection';
 import FooterSection from './components/FooterSection';
+import MuseumPage from './components/MuseumPage';
+import CompassQuizPage from './components/CompassQuizPage';
 import CardModal from './components/CardModal';
 import AdminModal from './components/AdminModal';
 import { 
@@ -17,10 +19,23 @@ import {
 import { VERSIONS } from './data/versionsConfig';
 
 export default function App() {
-  // Version / Concept theme state
+  // Page state: 'home', 'museum', 'quiz'
+  const [currentPage, setCurrentPage] = useState(() => {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const pageParam = urlParams.get('page');
+      if (pageParam && ['home', 'museum', 'quiz'].includes(pageParam)) {
+        return pageParam;
+      }
+      return 'home';
+    } catch {
+      return 'home';
+    }
+  });
+
+  // Version theme state
   const [activeVersionId, setActiveVersionId] = useState(() => {
     try {
-      // Check URL search params first (e.g. ?v=blueprint)
       const urlParams = new URLSearchParams(window.location.search);
       const vParam = urlParams.get('v') || urlParams.get('version');
       if (vParam && VERSIONS.some(v => v.id === vParam)) {
@@ -35,11 +50,22 @@ export default function App() {
 
   const activeVersion = VERSIONS.find(v => v.id === activeVersionId) || VERSIONS[0];
 
+  const handleSelectPage = (pageName) => {
+    setCurrentPage(pageName);
+    try {
+      const url = new URL(window.location);
+      url.searchParams.set('page', pageName);
+      window.history.replaceState({}, '', url);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (e) {
+      console.warn('URL update warning', e);
+    }
+  };
+
   const handleSelectVersion = (versionId) => {
     setActiveVersionId(versionId);
     try {
       localStorage.setItem('captain_teacher_version', versionId);
-      // Update URL query param without reload
       const url = new URL(window.location);
       url.searchParams.set('v', versionId);
       window.history.replaceState({}, '', url);
@@ -234,49 +260,69 @@ export default function App() {
         onSelectVersion={handleSelectVersion} 
       />
 
-      {/* Navbar with Live Count and Admin Trigger */}
+      {/* Navbar with Page Switcher and Admin Trigger */}
       <Navbar 
         onOpenAdmin={() => setIsAdminOpen(true)} 
         totalWishesCount={approvedWishesCount}
         version={activeVersion}
+        currentPage={currentPage}
+        onSelectPage={handleSelectPage}
       />
 
+      {/* Dynamic Page Router */}
       <main>
-        {/* Hero Section */}
-        <HeroSection 
-          totalWishes={approvedWishesCount} 
-          version={activeVersion}
-        />
+        {currentPage === 'home' && (
+          <>
+            {/* Hero Section */}
+            <HeroSection 
+              totalWishes={approvedWishesCount} 
+              version={activeVersion}
+            />
 
-        {/* Section 1: Key Visual Story & Event Info */}
-        <KeyVisualStory 
-          version={activeVersion}
-        />
+            {/* Section 1: Key Visual Story & Event Info */}
+            <KeyVisualStory 
+              version={activeVersion}
+            />
 
-        {/* Section 2: Interactive Card Generator */}
-        <CardCreator 
-          onAddCard={handleAddCard} 
-          version={activeVersion}
-        />
+            {/* Section 2: Interactive Card Generator */}
+            <CardCreator 
+              onAddCard={handleAddCard} 
+              version={activeVersion}
+            />
 
-        {/* Section 3: Wall of Wishes */}
-        <WishWall 
-          cards={cards} 
-          onLikeCard={handleLikeCard} 
-          onSelectCard={(card) => setSelectedCardForModal(card)}
-          version={activeVersion}
-        />
+            {/* Section 3: Wall of Wishes */}
+            <WishWall 
+              cards={cards} 
+              onLikeCard={handleLikeCard} 
+              onSelectCard={(card) => setSelectedCardForModal(card)}
+              version={activeVersion}
+            />
 
-        {/* Section 4: 4 Discussion Topics */}
-        <DiscussionSection 
-          topics={topics}
-          onAddComment={handleAddComment}
-          onLikeComment={handleLikeComment}
-          version={activeVersion}
-        />
+            {/* Section 4: 4 Discussion Topics */}
+            <DiscussionSection 
+              topics={topics}
+              onAddComment={handleAddComment}
+              onLikeComment={handleLikeComment}
+              version={activeVersion}
+            />
+          </>
+        )}
+
+        {/* Page 2: Bảo Tàng Kỷ Vật Giảng Đường */}
+        {currentPage === 'museum' && (
+          <MuseumPage version={activeVersion} />
+        )}
+
+        {/* Page 3: La Bàn Thuyền Trưởng & Bằng Khen */}
+        {currentPage === 'quiz' && (
+          <CompassQuizPage 
+            version={activeVersion}
+            onGoToPostcardStudio={() => handleSelectPage('home')}
+          />
+        )}
       </main>
 
-      {/* Section 5: Closing Greetings & 20/11 Celebration */}
+      {/* Footer Section */}
       <FooterSection 
         onOpenAdmin={() => setIsAdminOpen(true)} 
         version={activeVersion}
