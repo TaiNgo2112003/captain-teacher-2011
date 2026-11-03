@@ -13,7 +13,7 @@ import {
   BookOpen
 } from 'lucide-react';
 
-export default function CardCreator({ onAddCard }) {
+export default function CardCreator({ onAddCard, version }) {
   const [selectedTemplate, setSelectedTemplate] = useState(CARD_TEMPLATES[0].id);
   const [toTeacher, setToTeacher] = useState('');
   const [faculty, setFaculty] = useState('');
@@ -32,9 +32,9 @@ export default function CardCreator({ onAddCard }) {
   const fileInputRef = useRef(null);
   const cardCanvasRef = useRef(null);
 
+  const theme = version?.theme || {};
   const currentTemplate = CARD_TEMPLATES.find(t => t.id === selectedTemplate) || CARD_TEMPLATES[0];
 
-  // Handle local image upload with size check
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -51,7 +51,6 @@ export default function CardCreator({ onAddCard }) {
     }
   };
 
-  // Add postal stamp / sticker
   const handleAddSticker = (sticker) => {
     if (placedStickers.length >= 4) {
       alert('Để giữ tính thẩm mỹ của bưu thiếp, bạn chỉ nên dán tối đa 4 con tem / dấu mộc.');
@@ -71,7 +70,6 @@ export default function CardCreator({ onAddCard }) {
     setPlacedStickers(placedStickers.filter(s => s.id !== id));
   };
 
-  // Drag interaction
   const handleStickerDragStart = (e, index) => {
     e.dataTransfer.setData('text/plain', index);
   };
@@ -97,7 +95,6 @@ export default function CardCreator({ onAddCard }) {
     }
   };
 
-  // Submit card
   const handleSubmitCard = (e) => {
     e.preventDefault();
 
@@ -138,7 +135,7 @@ export default function CardCreator({ onAddCard }) {
         particleCount: 50,
         spread: 60,
         origin: { y: 0.65 },
-        colors: ['#B39765', '#B9685C', '#11263B', '#D3C6B3']
+        colors: version?.swatches || ['#B39765', '#B9685C', '#11263B']
       });
     } catch {
       // fallback
@@ -149,7 +146,6 @@ export default function CardCreator({ onAddCard }) {
       setIsSubmitting(false);
       setSubmitSuccess(true);
 
-      // Reset form fields
       setToTeacher('');
       setMessage('');
       setImagePreview(null);
@@ -164,32 +160,32 @@ export default function CardCreator({ onAddCard }) {
   };
 
   return (
-    <section id="studio" className="py-24 sm:py-32 bg-[#FAF7F2] border-t border-[#D3C6B3]/60 relative">
+    <section id="studio" className={`py-24 sm:py-32 border-t ${theme.borderSubtle || 'border-current/20'} transition-colors duration-300 ${theme.surfaceBg || 'bg-[#FAF7F2]'}`}>
       
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
         
         {/* Editorial Section Header */}
         <div className="max-w-2xl mx-auto text-center mb-16">
-          <div className="text-xs uppercase tracking-[0.25em] text-[#B39765] font-semibold mb-3">
+          <div className="text-xs uppercase tracking-[0.25em] font-semibold mb-3 opacity-80">
             Digital Postcard Studio
           </div>
-          <h2 className="font-editorial text-3xl sm:text-5xl font-bold text-[#11263B] tracking-tight mb-4">
+          <h2 className={`${theme.fontHeading || 'font-editorial'} text-3xl sm:text-5xl font-bold tracking-tight mb-4`}>
             Gửi Một Bức Bưu Thiếp Tri Ân
           </h2>
-          <p className="text-sm sm:text-base text-[#5C6A79] leading-relaxed">
+          <p className="text-sm sm:text-base opacity-75 leading-relaxed">
             Chọn chất liệu giấy, gửi gắm những lời chưa kịp nói và lưu giữ tấm lòng của bạn vào cuốn hải trình tri ân 20/11.
           </p>
         </div>
 
-        {/* 12-Column Layout: Form (Left 5) + Live Postcard Preview (Right 7) */}
+        {/* 12-Column Layout */}
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-start">
           
           {/* ============ LEFT: EDITORIAL FORM (COL 1-5) ============ */}
-          <div className="lg:col-span-5 bg-[#F5F0E7] border border-[#D3C6B3] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+          <div className={`lg:col-span-5 rounded-2xl p-6 sm:p-8 space-y-6 ${theme.cardStyle || 'border bg-white shadow-sm'}`}>
             
             {/* Step 1: Material Selection */}
             <div>
-              <label className="block text-[11px] font-mono tracking-widest text-[#B39765] uppercase mb-3">
+              <label className="block text-[11px] font-mono tracking-widest uppercase mb-3 opacity-80">
                 1. Chọn Chất Liệu Bưu Thiếp
               </label>
               <div className="grid grid-cols-2 gap-2.5">
@@ -202,14 +198,14 @@ export default function CardCreator({ onAddCard }) {
                       onClick={() => setSelectedTemplate(tmpl.id)}
                       className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
                         isSelected
-                          ? 'border-[#11263B] bg-[#FAF7F2] shadow-sm'
-                          : 'border-[#D3C6B3]/60 bg-transparent hover:border-[#B39765]'
+                          ? 'border-current bg-black/5 shadow-sm'
+                          : 'border-current/20 bg-transparent hover:border-current/50'
                       }`}
                     >
-                      <div className="font-editorial text-xs font-semibold text-[#11263B] truncate">
+                      <div className={`${theme.fontHeading || 'font-editorial'} text-xs font-semibold truncate`}>
                         {tmpl.name}
                       </div>
-                      <div className="text-[10px] text-[#5C6A79] truncate mt-0.5">
+                      <div className="text-[10px] opacity-70 truncate mt-0.5">
                         {tmpl.badge}
                       </div>
                     </button>
@@ -219,8 +215,8 @@ export default function CardCreator({ onAddCard }) {
             </div>
 
             {/* Step 2: Information */}
-            <div className="space-y-4 pt-2 border-t border-[#D3C6B3]/50">
-              <label className="block text-[11px] font-mono tracking-widest text-[#B39765] uppercase">
+            <div className="space-y-4 pt-2 border-t border-current/15">
+              <label className="block text-[11px] font-mono tracking-widest uppercase opacity-80">
                 2. Thông Tin Người Nhận & Người Gửi
               </label>
 
@@ -231,7 +227,7 @@ export default function CardCreator({ onAddCard }) {
                     placeholder="Thầy / Cô nhận thiệp *"
                     value={toTeacher}
                     onChange={(e) => setToTeacher(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-lg bg-[#FAF7F2] border border-[#D3C6B3] text-xs text-[#1C2A39] placeholder-[#8C98A4] focus:outline-none focus:border-[#11263B]"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-black/5 border border-current/20 text-xs focus:outline-none focus:border-current"
                     required
                   />
                 </div>
@@ -241,7 +237,7 @@ export default function CardCreator({ onAddCard }) {
                     placeholder="Khoa / Viện / Bộ môn"
                     value={faculty}
                     onChange={(e) => setFaculty(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-lg bg-[#FAF7F2] border border-[#D3C6B3] text-xs text-[#1C2A39] placeholder-[#8C98A4] focus:outline-none focus:border-[#11263B]"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-black/5 border border-current/20 text-xs focus:outline-none focus:border-current"
                   />
                 </div>
                 <div>
@@ -250,7 +246,7 @@ export default function CardCreator({ onAddCard }) {
                     placeholder="Tên của bạn hoặc tập thể *"
                     value={fromStudent}
                     onChange={(e) => setFromStudent(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-lg bg-[#FAF7F2] border border-[#D3C6B3] text-xs text-[#1C2A39] placeholder-[#8C98A4] focus:outline-none focus:border-[#11263B]"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-black/5 border border-current/20 text-xs focus:outline-none focus:border-current"
                     required
                   />
                 </div>
@@ -260,32 +256,31 @@ export default function CardCreator({ onAddCard }) {
                     placeholder="Lớp / Niên khóa"
                     value={studentClass}
                     onChange={(e) => setStudentClass(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-lg bg-[#FAF7F2] border border-[#D3C6B3] text-xs text-[#1C2A39] placeholder-[#8C98A4] focus:outline-none focus:border-[#11263B]"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-black/5 border border-current/20 text-xs focus:outline-none focus:border-current"
                   />
                 </div>
               </div>
             </div>
 
             {/* Step 3: Message */}
-            <div className="pt-2 border-t border-[#D3C6B3]/50">
+            <div className="pt-2 border-t border-current/15">
               <div className="flex items-center justify-between mb-2">
-                <label className="block text-[11px] font-mono tracking-widest text-[#B39765] uppercase">
+                <label className="block text-[11px] font-mono tracking-widest uppercase opacity-80">
                   3. Lời Tri Ân
                 </label>
 
                 <button
                   type="button"
                   onClick={() => setShowPromptPicker(!showPromptPicker)}
-                  className="text-[11px] text-[#B9685C] hover:underline flex items-center gap-1 cursor-pointer"
+                  className="text-[11px] opacity-80 hover:opacity-100 underline flex items-center gap-1 cursor-pointer"
                 >
                   <BookOpen className="w-3 h-3" />
                   <span>Gợi ý ý tưởng</span>
                 </button>
               </div>
 
-              {/* Suggestions */}
               {showPromptPicker && (
-                <div className="mb-3 p-3 rounded-xl bg-[#FAF7F2] border border-[#B39765]/40 space-y-2 text-xs">
+                <div className="mb-3 p-3 rounded-xl bg-black/5 border border-current/20 space-y-2 text-xs">
                   {PROMPT_WISH_SUGGESTIONS.map((item, idx) => (
                     <button
                       key={idx}
@@ -294,9 +289,9 @@ export default function CardCreator({ onAddCard }) {
                         setMessage(item.text);
                         setShowPromptPicker(false);
                       }}
-                      className="w-full text-left p-2 rounded-lg hover:bg-[#F5F0E7] text-[#1C2A39] transition-colors"
+                      className="w-full text-left p-2 rounded-lg hover:bg-black/10 transition-colors"
                     >
-                      <span className="font-semibold text-[#B39765] block">{item.category}:</span>
+                      <span className="font-semibold block">{item.category}:</span>
                       <span className="italic">{item.text}</span>
                     </button>
                   ))}
@@ -309,18 +304,18 @@ export default function CardCreator({ onAddCard }) {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 maxLength={450}
-                className="w-full px-3.5 py-3 rounded-lg bg-[#FAF7F2] border border-[#D3C6B3] text-xs leading-relaxed text-[#1C2A39] placeholder-[#8C98A4] focus:outline-none focus:border-[#11263B]"
+                className="w-full px-3.5 py-3 rounded-lg bg-black/5 border border-current/20 text-xs leading-relaxed focus:outline-none focus:border-current"
                 required
               />
-              <div className="flex justify-between items-center text-[10px] text-[#5C6A79] mt-1">
+              <div className="flex justify-between items-center text-[10px] opacity-60 mt-1">
                 <span>Khuyên dùng ít nhất 20 chữ</span>
                 <span>{message.length}/450 ký tự</span>
               </div>
             </div>
 
-            {/* Step 4: Photo attachment (Optional) */}
-            <div className="pt-2 border-t border-[#D3C6B3]/50">
-              <label className="block text-[11px] font-mono tracking-widest text-[#B39765] uppercase mb-2">
+            {/* Step 4: Photo attachment */}
+            <div className="pt-2 border-t border-current/15">
+              <label className="block text-[11px] font-mono tracking-widest uppercase mb-2 opacity-80">
                 4. Kẹp Ảnh Kỷ Niệm (Tùy chọn)
               </label>
 
@@ -336,20 +331,20 @@ export default function CardCreator({ onAddCard }) {
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="px-4 py-2 rounded-lg border border-[#D3C6B3] bg-[#FAF7F2] hover:border-[#11263B] text-xs text-[#1C2A39] font-medium flex items-center gap-2 cursor-pointer transition-colors"
+                  className="px-4 py-2 rounded-lg border border-current/30 bg-black/5 hover:border-current text-xs font-medium flex items-center gap-2 cursor-pointer transition-colors"
                 >
-                  <Upload className="w-3.5 h-3.5 text-[#B39765]" />
+                  <Upload className="w-3.5 h-3.5" />
                   <span>{imagePreview ? 'Thay đổi ảnh' : 'Tải ảnh từ thiết bị'}</span>
                 </button>
 
                 {imagePreview && (
-                  <div className="flex items-center gap-2 bg-[#FAF7F2] px-2 py-1 rounded border border-[#D3C6B3]">
+                  <div className="flex items-center gap-2 bg-black/5 px-2 py-1 rounded border border-current/20">
                     <img src={imagePreview} alt="Thumbnail" className="w-6 h-6 object-cover rounded" />
-                    <span className="text-[11px] text-[#5C6A79]">Đã kẹp ảnh</span>
+                    <span className="text-[11px] opacity-75">Đã kẹp ảnh</span>
                     <button
                       type="button"
                       onClick={() => setImagePreview(null)}
-                      className="text-[#B9685C] hover:text-[#11263B] ml-1"
+                      className="hover:opacity-100 ml-1 text-rose-500"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
@@ -359,12 +354,12 @@ export default function CardCreator({ onAddCard }) {
             </div>
 
             {/* Step 5: Optional Stamps */}
-            <div className="pt-2 border-t border-[#D3C6B3]/50">
+            <div className="pt-2 border-t border-current/15">
               <div className="flex items-center justify-between mb-2">
-                <label className="block text-[11px] font-mono tracking-widest text-[#B39765] uppercase">
+                <label className="block text-[11px] font-mono tracking-widest uppercase opacity-80">
                   5. Dấu Mộc & Con Tem Bưu Chính (Tùy chọn)
                 </label>
-                <span className="text-[10px] text-[#5C6A79]">
+                <span className="text-[10px] opacity-60">
                   {placedStickers.length}/4 dấu
                 </span>
               </div>
@@ -375,7 +370,7 @@ export default function CardCreator({ onAddCard }) {
                     key={stk.id}
                     type="button"
                     onClick={() => handleAddSticker(stk)}
-                    className="px-2.5 py-1 rounded-full bg-[#FAF7F2] hover:bg-[#FAF7F2]/80 border border-[#D3C6B3] text-[11px] text-[#1C2A39] flex items-center gap-1 cursor-pointer transition-colors"
+                    className="px-2.5 py-1 rounded-full bg-black/5 hover:bg-black/10 border border-current/20 text-[11px] flex items-center gap-1 cursor-pointer transition-colors"
                   >
                     <span>{stk.icon}</span>
                     <span>{stk.label}</span>
@@ -384,26 +379,25 @@ export default function CardCreator({ onAddCard }) {
               </div>
             </div>
 
-            {/* Error notice if any */}
             {formError && (
-              <div className="p-3 rounded-lg bg-[#B9685C]/10 border border-[#B9685C]/30 text-xs text-[#B9685C]">
+              <div className="p-3 rounded-lg bg-rose-500/10 border border-rose-500/30 text-xs text-rose-500">
                 {formError}
               </div>
             )}
 
             {/* Submit */}
-            <div className="pt-4 border-t border-[#D3C6B3]/50">
+            <div className="pt-3 border-t border-current/15">
               <button
                 type="button"
                 onClick={handleSubmitCard}
                 disabled={isSubmitting}
-                className="w-full py-3.5 rounded-full bg-[#11263B] hover:bg-[#18334E] text-[#F5F0E7] text-xs uppercase tracking-wider font-semibold transition-all duration-200 shadow hover:shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                className={`w-full py-3.5 rounded-full text-xs uppercase tracking-wider font-semibold transition-all duration-200 shadow hover:shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 ${theme.btnPrimary || 'bg-black text-white'}`}
               >
                 {isSubmitting ? (
                   <span>Đang niêm phong...</span>
                 ) : submitSuccess ? (
                   <>
-                    <Check className="w-4 h-4 text-[#B39765]" />
+                    <Check className="w-4 h-4" />
                     <span>Đã gửi vào cuốn hải trình!</span>
                   </>
                 ) : (
@@ -419,11 +413,10 @@ export default function CardCreator({ onAddCard }) {
 
           {/* ============ RIGHT: TACTILE POSTCARD PREVIEW (COL 6-12) ============ */}
           <div className="lg:col-span-7 sticky top-28">
-            <div className="text-xs uppercase tracking-[0.2em] font-semibold text-[#5C6A79] text-center mb-3">
-              Xem Trước Bản In Bưu Thiếp
+            <div className="text-xs uppercase tracking-[0.2em] font-semibold opacity-70 text-center mb-3 font-mono">
+              Bản In Bưu Thiếp Tương Tác
             </div>
 
-            {/* The Physical Postcard Card Container */}
             <div
               ref={cardCanvasRef}
               onDragOver={handleCanvasDragOver}
@@ -431,14 +424,12 @@ export default function CardCreator({ onAddCard }) {
               className={`relative min-h-[440px] sm:min-h-[480px] rounded-2xl p-7 sm:p-9 transition-all duration-300 select-none overflow-hidden ${currentTemplate.bgClass} ${currentTemplate.borderStyle}`}
             >
               
-              {/* Divided Back Postcard Layout Grid (2 Columns on tablet/desktop) */}
               <div className="grid sm:grid-cols-12 gap-8 h-full">
                 
-                {/* Left Side: Personal Note & Message (Col 1-7) */}
+                {/* Left Side: Personal Note (Col 1-7) */}
                 <div className="sm:col-span-7 flex flex-col justify-between border-b sm:border-b-0 sm:border-r border-current/15 pb-6 sm:pb-0 sm:pr-7">
                   
                   <div>
-                    {/* Masthead of the postcard */}
                     <div className="flex items-center gap-2 border-b border-current/10 pb-2 mb-4">
                       <span className="text-[10px] uppercase font-mono tracking-widest opacity-60">
                         Postcard Tribute
@@ -446,13 +437,11 @@ export default function CardCreator({ onAddCard }) {
                       <span className="text-[9px] opacity-40 font-mono">• 20.11.2026</span>
                     </div>
 
-                    {/* Wishes text */}
-                    <p className="font-editorial text-sm sm:text-base leading-relaxed italic opacity-95 min-h-[140px] whitespace-pre-line">
+                    <p className={`${theme.fontHeading || 'font-editorial'} text-sm sm:text-base leading-relaxed italic opacity-95 min-h-[140px] whitespace-pre-line`}>
                       “{message || 'Kính gửi Thầy Cô, người đã trao cho chúng em chiếc la bàn tri thức và lòng tin vững chắc để tự mình vươn ra biển lớn...' }”
                     </p>
                   </div>
 
-                  {/* Sender signature block */}
                   <div className="pt-4 border-t border-current/10 mt-4">
                     <div className="text-[10px] uppercase tracking-wider opacity-60">
                       Người gửi:
@@ -467,27 +456,23 @@ export default function CardCreator({ onAddCard }) {
 
                 </div>
 
-                {/* Right Side: Recipient & Postmark & Photo (Col 8-12) */}
+                {/* Right Side: Recipient & Photo (Col 8-12) */}
                 <div className="sm:col-span-5 flex flex-col justify-between space-y-4">
                   
-                  {/* Postage Stamp & Cancellation Mark (Top Right) */}
                   <div className="flex items-start justify-end gap-2">
-                    {/* Postal cancellation lines */}
                     <div className="hidden sm:flex flex-col gap-1 justify-center opacity-40 pt-1">
                       <div className="w-12 h-[1px] bg-current" />
                       <div className="w-16 h-[1px] bg-current" />
                       <div className="w-14 h-[1px] bg-current" />
                     </div>
 
-                    {/* Stamp Box */}
                     <div className="w-14 h-16 rounded border-2 border-dashed border-current/40 flex flex-col items-center justify-between p-1.5 text-center shrink-0">
                       <span className="text-[8px] uppercase tracking-widest font-mono opacity-70">VN POST</span>
-                      <span className="text-lg">⚓️</span>
+                      <span className="text-lg">{theme.emblem || '⚓️'}</span>
                       <span className="text-[7px] font-bold tracking-tighter opacity-80">20/11</span>
                     </div>
                   </div>
 
-                  {/* Optional Attached Photograph */}
                   {imagePreview && (
                     <div className="rounded-lg overflow-hidden border border-current/20 shadow-sm max-h-36 bg-black/5">
                       <img
@@ -498,13 +483,12 @@ export default function CardCreator({ onAddCard }) {
                     </div>
                   )}
 
-                  {/* Address Lines to the Teacher */}
                   <div className="space-y-3 pt-2">
                     <div className="border-b border-current/25 pb-1">
                       <div className="text-[9px] uppercase tracking-wider opacity-60">
                         Kính gửi:
                       </div>
-                      <div className="font-editorial font-bold text-sm sm:text-base truncate">
+                      <div className={`${theme.fontHeading || 'font-editorial'} font-bold text-sm sm:text-base truncate`}>
                         {toTeacher || 'Quý Thầy / Cô Kính Yêu'}
                       </div>
                     </div>
@@ -523,7 +507,6 @@ export default function CardCreator({ onAddCard }) {
 
               </div>
 
-              {/* Interactive Placed Stamps / Seals (Can be repositioned) */}
               {placedStickers.map((stk, index) => (
                 <div
                   key={stk.id}
@@ -533,7 +516,7 @@ export default function CardCreator({ onAddCard }) {
                   className="absolute -translate-x-1/2 -translate-y-1/2 cursor-grab active:cursor-grabbing group/stk z-20"
                   title="Có thể kéo rê để căn chỉnh vị trí"
                 >
-                  <div className="flex items-center gap-1 bg-[#FAF7F2]/90 backdrop-blur-sm text-[#11263B] px-2 py-0.5 rounded border border-[#B39765]/60 text-xs shadow-md group-hover/stk:scale-105 transition-transform">
+                  <div className="flex items-center gap-1 bg-white/90 backdrop-blur-sm text-black px-2 py-0.5 rounded border border-black/20 text-xs shadow-md group-hover/stk:scale-105 transition-transform">
                     <span className="text-sm">{stk.icon}</span>
                     <span className="text-[9px] font-mono tracking-tight font-medium hidden group-hover/stk:inline-block">
                       {stk.label}
@@ -544,7 +527,7 @@ export default function CardCreator({ onAddCard }) {
                         e.stopPropagation();
                         handleRemoveSticker(stk.id);
                       }}
-                      className="text-[#B9685C] hover:text-[#11263B] ml-1 text-xs font-bold leading-none"
+                      className="text-rose-500 hover:text-black ml-1 text-xs font-bold leading-none"
                     >
                       ×
                     </button>
@@ -554,8 +537,8 @@ export default function CardCreator({ onAddCard }) {
 
             </div>
 
-            <div className="text-center mt-3 text-[11px] text-[#5C6A79]">
-              💡 Có thể kéo rê con tem trên bưu thiếp để căn chỉnh vị trí thẩm mỹ.
+            <div className="text-center mt-3 text-[11px] opacity-60 font-mono">
+              💡 Kéo rê các con tem trên mặt bưu thiếp để tạo bố cục riêng.
             </div>
 
           </div>

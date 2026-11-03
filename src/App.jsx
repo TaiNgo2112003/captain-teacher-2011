@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import VersionBar from './components/VersionBar';
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
 import KeyVisualStory from './components/KeyVisualStory';
@@ -13,8 +14,40 @@ import {
   DISCUSSION_TOPICS, 
   SENSITIVE_WORDS 
 } from './data/initialData';
+import { VERSIONS } from './data/versionsConfig';
 
 export default function App() {
+  // Version / Concept theme state
+  const [activeVersionId, setActiveVersionId] = useState(() => {
+    try {
+      // Check URL search params first (e.g. ?v=blueprint)
+      const urlParams = new URLSearchParams(window.location.search);
+      const vParam = urlParams.get('v') || urlParams.get('version');
+      if (vParam && VERSIONS.some(v => v.id === vParam)) {
+        return vParam;
+      }
+      const saved = localStorage.getItem('captain_teacher_version');
+      return (saved && VERSIONS.some(v => v.id === saved)) ? saved : VERSIONS[0].id;
+    } catch {
+      return VERSIONS[0].id;
+    }
+  });
+
+  const activeVersion = VERSIONS.find(v => v.id === activeVersionId) || VERSIONS[0];
+
+  const handleSelectVersion = (versionId) => {
+    setActiveVersionId(versionId);
+    try {
+      localStorage.setItem('captain_teacher_version', versionId);
+      // Update URL query param without reload
+      const url = new URL(window.location);
+      url.searchParams.set('v', versionId);
+      window.history.replaceState({}, '', url);
+    } catch (e) {
+      console.warn('URL update warning', e);
+    }
+  };
+
   // Cards state with localStorage persistence
   const [cards, setCards] = useState(() => {
     try {
@@ -76,7 +109,6 @@ export default function App() {
 
   // Add new card with auto-filtering
   const handleAddCard = (newCard) => {
-    // Check if message has sensitive words
     let cleanedMessage = newCard.message;
     sensitiveWords.forEach((word) => {
       const regex = new RegExp(word, 'gi');
@@ -181,7 +213,6 @@ export default function App() {
     );
   };
 
-  // Sensitive words handlers
   const handleAddSensitiveWord = (word) => {
     if (!sensitiveWords.includes(word)) {
       setSensitiveWords([...sensitiveWords, word]);
@@ -195,41 +226,61 @@ export default function App() {
   const approvedWishesCount = cards.filter((c) => c.status === 'approved').length;
 
   return (
-    <div className="min-h-screen bg-[#F5F0E7] text-[#1C2A39] selection:bg-[#B39765]/20 selection:text-[#11263B] font-sans">
+    <div className={`min-h-screen transition-colors duration-300 ${activeVersion.theme.pageBg || 'bg-[#F5F0E7]'} ${activeVersion.theme.pageText || 'text-[#1C2A39]'}`}>
       
-      {/* Navbar with Live Countdown and Admin Trigger */}
+      {/* 5-Version Concept Switcher Bar (Sticky on Top) */}
+      <VersionBar 
+        activeVersionId={activeVersionId} 
+        onSelectVersion={handleSelectVersion} 
+      />
+
+      {/* Navbar with Live Count and Admin Trigger */}
       <Navbar 
         onOpenAdmin={() => setIsAdminOpen(true)} 
         totalWishesCount={approvedWishesCount}
+        version={activeVersion}
       />
 
       <main>
         {/* Hero Section */}
-        <HeroSection totalWishes={approvedWishesCount} />
+        <HeroSection 
+          totalWishes={approvedWishesCount} 
+          version={activeVersion}
+        />
 
         {/* Section 1: Key Visual Story & Event Info */}
-        <KeyVisualStory />
+        <KeyVisualStory 
+          version={activeVersion}
+        />
 
-        {/* Section 2: Interactive Card Generator with Stickers Drag & Drop */}
-        <CardCreator onAddCard={handleAddCard} />
+        {/* Section 2: Interactive Card Generator */}
+        <CardCreator 
+          onAddCard={handleAddCard} 
+          version={activeVersion}
+        />
 
         {/* Section 3: Wall of Wishes */}
         <WishWall 
           cards={cards} 
           onLikeCard={handleLikeCard} 
           onSelectCard={(card) => setSelectedCardForModal(card)}
+          version={activeVersion}
         />
 
-        {/* Section 4: 3-5 Discussion Topics with 1-3 Images upload */}
+        {/* Section 4: 4 Discussion Topics */}
         <DiscussionSection 
           topics={topics}
           onAddComment={handleAddComment}
           onLikeComment={handleLikeComment}
+          version={activeVersion}
         />
       </main>
 
       {/* Section 5: Closing Greetings & 20/11 Celebration */}
-      <FooterSection onOpenAdmin={() => setIsAdminOpen(true)} />
+      <FooterSection 
+        onOpenAdmin={() => setIsAdminOpen(true)} 
+        version={activeVersion}
+      />
 
       {/* Floating Admin Quick Access Pill */}
       <button
