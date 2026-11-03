@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "deploy": "vite build && cp dist/index.html dist/404.html && touch dist/.nojekyll && cd dist && rm -rf .git && git init -b gh-pages && git add -A && git commit -m 'deploy' && git remote add origin https://github.com/TaiNgo2112003/captain-teacher-2011.git && git push -f origin gh-pages && cd ..",
     "lint": "oxlint",
     "preview": "vite preview"
   },
