@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Shield } from 'lucide-react';
 
-export default function Navbar({ onOpenAdmin, version, currentPage, onSelectPage }) {
+export default function Navbar({ version, currentPage, onSelectPage }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -42,7 +42,7 @@ export default function Navbar({ onOpenAdmin, version, currentPage, onSelectPage
             </div>
           </button>
 
-          {/* Desktop Primary Page Tabs (Trang Chủ, Bảo Tàng Kỷ Vật, La Bàn Mentor) */}
+          {/* Desktop Primary Page Tabs (Trang Chủ, Bảo Tàng Kỷ Vật, La Bàn Mentor, Quản Trị Admin) */}
           <div className="hidden md:flex items-center gap-1.5 p-1 rounded-full bg-black/5 border border-current/20 text-xs">
             <button
               onClick={() => onSelectPage('home')}
@@ -78,25 +78,49 @@ export default function Navbar({ onOpenAdmin, version, currentPage, onSelectPage
               <span>🧭 La Bàn Mentor</span>
               <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-700 font-bold">Hot</span>
             </button>
-          </div>
 
-          {/* Right Action: Admin Button */}
-          <div className="hidden lg:flex items-center gap-3">
             <button
-              onClick={onOpenAdmin}
-              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold transition-all duration-200 shadow-sm cursor-pointer border border-current/40 ${theme.btnPrimary || 'bg-[#11263B] text-white'}`}
-              title="Mở Bảng Điều Khiển Quản Trị & Báo Giá (Mã PIN: 2011)"
+              onClick={() => onSelectPage('admin')}
+              className={`px-3.5 py-1.5 rounded-full font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
+                currentPage === 'admin'
+                  ? `${theme.btnPrimary || 'bg-black text-white'} shadow-sm`
+                  : 'opacity-70 hover:opacity-100 hover:bg-black/5'
+              }`}
             >
               <Shield className="w-3.5 h-3.5" />
-              <span>Admin (PIN: 2011)</span>
+              <span>Quản Trị Admin</span>
+              <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-emerald-500/20 text-emerald-700 font-bold">2011</span>
             </button>
+          </div>
+
+          {/* Right Action: Admin Button or Back to Home */}
+          <div className="hidden lg:flex items-center gap-3">
+            {currentPage === 'admin' ? (
+              <button
+                onClick={() => onSelectPage('home')}
+                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold transition-all duration-200 shadow-sm cursor-pointer border border-current/40 ${theme.btnPrimary || 'bg-[#11263B] text-white'}`}
+              >
+                <span>← Về Trang Chủ</span>
+              </button>
+            ) : (
+              <button
+                onClick={() => onSelectPage('admin')}
+                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold transition-all duration-200 shadow-sm cursor-pointer border border-current/40 ${theme.btnPrimary || 'bg-[#11263B] text-white'}`}
+                title="Mở Trang Quản Trị & Đề Xuất Kỹ Thuật (Mã PIN: 2011)"
+              >
+                <Shield className="w-3.5 h-3.5" />
+                <span>Admin (PIN: 2011)</span>
+              </button>
+            )}
           </div>
 
           {/* Mobile hamburger menu triggers */}
           <div className="flex items-center gap-2 md:hidden">
             <button
-              onClick={onOpenAdmin}
-              className="flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1.5 rounded-full border border-current/40 bg-black/5"
+              onClick={() => onSelectPage('admin')}
+              className={`flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1.5 rounded-full border border-current/40 ${
+                currentPage === 'admin' ? `${theme.btnPrimary || 'bg-black text-white'}` : 'bg-black/5'
+              }`}
             >
               <Shield className="w-3 h-3" />
               <span>Admin</span>
@@ -150,19 +174,18 @@ export default function Navbar({ onOpenAdmin, version, currentPage, onSelectPage
               <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-700 font-bold">Hot</span>
             </button>
 
-            <div className="pt-2 border-t border-current/20">
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenAdmin();
-                }}
-                className={`w-full py-2.5 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 ${theme.btnPrimary || 'bg-black text-white'}`}
-              >
+            <button
+              onClick={() => { onSelectPage('admin'); setMobileMenuOpen(false); }}
+              className={`w-full text-left p-2.5 rounded-xl text-xs font-semibold flex items-center justify-between ${
+                currentPage === 'admin' ? `${theme.btnPrimary || 'bg-black text-white'}` : 'bg-black/5'
+              }`}
+            >
+              <span className="flex items-center gap-1.5">
                 <Shield className="w-3.5 h-3.5" />
-                <span>Bảng Điều Khiển Admin (Mã PIN: 2011)</span>
-              </button>
-            </div>
+                <span>Trang Quản Trị Admin</span>
+              </span>
+              <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-emerald-500/20 text-emerald-700 font-bold">PIN: 2011</span>
+            </button>
           </div>
         )}
 

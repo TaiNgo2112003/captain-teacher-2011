@@ -10,7 +10,7 @@ import FooterSection from './components/FooterSection';
 import MuseumPage from './components/MuseumPage';
 import CompassQuizPage from './components/CompassQuizPage';
 import CardModal from './components/CardModal';
-import AdminModal from './components/AdminModal';
+import AdminPage from './components/AdminPage';
 import { 
   DEFAULT_CARDS, 
   DISCUSSION_TOPICS, 
@@ -19,12 +19,12 @@ import {
 import { VERSIONS } from './data/versionsConfig';
 
 export default function App() {
-  // Page state: 'home', 'museum', 'quiz'
+  // Page state: 'home', 'museum', 'quiz', 'admin'
   const [currentPage, setCurrentPage] = useState(() => {
     try {
       const urlParams = new URLSearchParams(window.location.search);
       const pageParam = urlParams.get('page');
-      if (pageParam && ['home', 'museum', 'quiz'].includes(pageParam)) {
+      if (pageParam && ['home', 'museum', 'quiz', 'admin'].includes(pageParam)) {
         return pageParam;
       }
       return 'home';
@@ -106,7 +106,6 @@ export default function App() {
 
   // Modals state
   const [selectedCardForModal, setSelectedCardForModal] = useState(null);
-  const [isAdminOpen, setIsAdminOpen] = useState(false);
 
   // Sync to localStorage
   useEffect(() => {
@@ -262,7 +261,6 @@ export default function App() {
 
       {/* Navbar with Page Switcher and Admin Trigger */}
       <Navbar 
-        onOpenAdmin={() => setIsAdminOpen(true)} 
         totalWishesCount={approvedWishesCount}
         version={activeVersion}
         currentPage={currentPage}
@@ -320,23 +318,50 @@ export default function App() {
             onGoToPostcardStudio={() => handleSelectPage('home')}
           />
         )}
+
+        {/* Page 4: Trang Quản Trị Admin Chuyên Biệt */}
+        {currentPage === 'admin' && (
+          <AdminPage
+            version={activeVersion}
+            cards={cards}
+            onToggleCardStatus={handleToggleCardStatus}
+            onToggleCardPin={handleToggleCardPin}
+            onDeleteCard={handleDeleteCard}
+            topics={topics}
+            onToggleCommentStatus={handleToggleCommentStatus}
+            sensitiveWords={sensitiveWords}
+            onAddSensitiveWord={handleAddSensitiveWord}
+            onRemoveSensitiveWord={handleRemoveSensitiveWord}
+            onBackToHome={() => handleSelectPage('home')}
+          />
+        )}
       </main>
 
       {/* Footer Section */}
       <FooterSection 
-        onOpenAdmin={() => setIsAdminOpen(true)} 
+        onOpenAdmin={() => handleSelectPage('admin')} 
         version={activeVersion}
       />
 
-      {/* Floating Admin Quick Access Pill */}
-      <button
-        onClick={() => setIsAdminOpen(true)}
-        className="fixed bottom-5 right-5 z-40 flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#11263B] text-[#F5F0E7] border border-[#B39765]/60 shadow-2xl hover:bg-[#18334E] hover:scale-105 active:scale-95 transition-all text-xs font-semibold cursor-pointer group"
-        title="Mở Bảng Điều Khiển Quản Trị & Đề Xuất Kỹ Thuật (Mã PIN: 2011)"
-      >
-        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-        <span>Admin (PIN: 2011)</span>
-      </button>
+      {/* Floating Navigation Quick Access Pill */}
+      {currentPage === 'admin' ? (
+        <button
+          onClick={() => handleSelectPage('home')}
+          className="fixed bottom-5 right-5 z-40 flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#11263B] text-[#F5F0E7] border border-[#B39765]/60 shadow-2xl hover:bg-[#18334E] hover:scale-105 active:scale-95 transition-all text-xs font-semibold cursor-pointer group"
+          title="Quay lại Trang Chủ Tri Ân"
+        >
+          <span>← Quay Lại Trang Chủ</span>
+        </button>
+      ) : (
+        <button
+          onClick={() => handleSelectPage('admin')}
+          className="fixed bottom-5 right-5 z-40 flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#11263B] text-[#F5F0E7] border border-[#B39765]/60 shadow-2xl hover:bg-[#18334E] hover:scale-105 active:scale-95 transition-all text-xs font-semibold cursor-pointer group"
+          title="Mở Bảng Điều Khiển Quản Trị & Đề Xuất Kỹ Thuật (Mã PIN: 2011)"
+        >
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          <span>Admin (PIN: 2011)</span>
+        </button>
+      )}
 
       {/* Card Detail Modal */}
       {selectedCardForModal && (
@@ -346,21 +371,6 @@ export default function App() {
           onLike={handleLikeCard}
         />
       )}
-
-      {/* Admin Panel Modal (PIN: 2011) */}
-      <AdminModal
-        isOpen={isAdminOpen}
-        onClose={() => setIsAdminOpen(false)}
-        cards={cards}
-        onToggleCardStatus={handleToggleCardStatus}
-        onToggleCardPin={handleToggleCardPin}
-        onDeleteCard={handleDeleteCard}
-        topics={topics}
-        onToggleCommentStatus={handleToggleCommentStatus}
-        sensitiveWords={sensitiveWords}
-        onAddSensitiveWord={handleAddSensitiveWord}
-        onRemoveSensitiveWord={handleRemoveSensitiveWord}
-      />
 
     </div>
   );
