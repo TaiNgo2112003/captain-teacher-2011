@@ -20,19 +20,35 @@ import {
 import { VERSIONS } from './data/versionsConfig';
 
 export default function App() {
-  // Page state: 'home', 'museum', 'quiz', 'admin', 'gallery3d'
+  // Page state: 'home' (unified single-page experience) or 'admin' (dedicated management)
   const [currentPage, setCurrentPage] = useState(() => {
     try {
       const urlParams = new URLSearchParams(window.location.search);
-      const pageParam = urlParams.get('page');
-      if (pageParam && ['home', 'museum', 'quiz', 'admin', 'gallery3d'].includes(pageParam)) {
-        return pageParam;
-      }
-      return 'home';
+      return urlParams.get('page') === 'admin' ? 'admin' : 'home';
     } catch {
       return 'home';
     }
   });
+
+  const [activeSection, setActiveSection] = useState('hero');
+
+  // Handle URL hash or pageParam scrolling on initial load
+  useEffect(() => {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const pageParam = urlParams.get('page');
+      const hash = window.location.hash.replace('#', '');
+      const targetId = hash || (['museum', 'quiz', 'gallery3d', 'studio', 'archive', 'dialogue'].includes(pageParam) ? pageParam : null);
+      if (targetId && currentPage !== 'admin') {
+        setTimeout(() => {
+          const el = document.getElementById(targetId);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 350);
+      }
+    } catch (e) {
+      console.warn(e);
+    }
+  }, [currentPage]);
 
   // Version theme state
   const [activeVersionId, setActiveVersionId] = useState(() => {
@@ -55,11 +71,44 @@ export default function App() {
     setCurrentPage(pageName);
     try {
       const url = new URL(window.location);
-      url.searchParams.set('page', pageName);
+      if (pageName === 'home') {
+        url.searchParams.delete('page');
+      } else {
+        url.searchParams.set('page', pageName);
+      }
       window.history.replaceState({}, '', url);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (e) {
       console.warn('URL update warning', e);
+    }
+  };
+
+  const handleNavigateSection = (sectionId) => {
+    setActiveSection(sectionId);
+    if (currentPage === 'admin') {
+      setCurrentPage('home');
+      try {
+        const url = new URL(window.location);
+        url.searchParams.delete('page');
+        window.history.replaceState({}, '', url);
+      } catch (e) {
+        console.warn('URL update warning', e);
+      }
+      setTimeout(() => {
+        if (sectionId === 'top' || sectionId === 'hero') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          const el = document.getElementById(sectionId);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 150);
+    } else {
+      if (sectionId === 'top' || sectionId === 'hero') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        const el = document.getElementById(sectionId);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
@@ -266,17 +315,21 @@ export default function App() {
         version={activeVersion}
         currentPage={currentPage}
         onSelectPage={handleSelectPage}
+        onNavigateSection={handleNavigateSection}
+        activeSection={activeSection}
       />
 
       {/* Dynamic Page Router */}
       <main>
-        {currentPage === 'home' && (
+        {currentPage !== 'admin' && (
           <>
             {/* Hero Section */}
-            <HeroSection 
-              totalWishes={approvedWishesCount} 
-              version={activeVersion}
-            />
+            <div id="hero">
+              <HeroSection 
+                totalWishes={approvedWishesCount} 
+                version={activeVersion}
+              />
+            </div>
 
             {/* Section 1: Key Visual Story & Event Info */}
             <KeyVisualStory 
@@ -304,30 +357,26 @@ export default function App() {
               onLikeComment={handleLikeComment}
               version={activeVersion}
             />
+
+            {/* Section 5: Bảo Tàng Kỷ Vật Giảng Đường */}
+            <MuseumPage 
+              version={activeVersion} 
+            />
+
+            {/* Section 6: La Bàn Thuyền Trưởng & Bằng Khen */}
+            <CompassQuizPage 
+              version={activeVersion}
+              onGoToPostcardStudio={() => handleNavigateSection('studio')}
+            />
+
+            {/* Section 7: Ký Ức 3D Động Ảnh Sắc Màu */}
+            <MotionGallery3DPage 
+              version={activeVersion}
+            />
           </>
         )}
 
-        {/* Page 2: Bảo Tàng Kỷ Vật Giảng Đường */}
-        {currentPage === 'museum' && (
-          <MuseumPage version={activeVersion} />
-        )}
-
-        {/* Page 3: La Bàn Thuyền Trưởng & Bằng Khen */}
-        {currentPage === 'quiz' && (
-          <CompassQuizPage 
-            version={activeVersion}
-            onGoToPostcardStudio={() => handleSelectPage('home')}
-          />
-        )}
-
-        {/* Page 4: Ký Ức 3D Động Ảnh Sắc Màu */}
-        {currentPage === 'gallery3d' && (
-          <MotionGallery3DPage 
-            version={activeVersion}
-          />
-        )}
-
-        {/* Page 5: Trang Quản Trị Admin Chuyên Biệt */}
+        {/* Page Admin: Trang Quản Trị Admin Chuyên Biệt */}
         {currentPage === 'admin' && (
           <AdminPage
             version={activeVersion}

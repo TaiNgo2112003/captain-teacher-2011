@@ -22,7 +22,9 @@ import {
 import confetti from 'canvas-confetti';
 import { COLOR_ATMOSPHERES, INITIAL_MOTION_PHOTOS } from '../data/motionPhotosData';
 
-export default function MotionGallery3DPage({ _version }) {
+export default function MotionGallery3DPage({ version }) {
+  const theme = version?.theme || {};
+
   // Saved photos with localStorage persistence
   const [photos, setPhotos] = useState(() => {
     try {
@@ -200,7 +202,7 @@ export default function MotionGallery3DPage({ _version }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#070B14] text-white relative overflow-hidden transition-colors duration-500 pb-28">
+    <section id="gallery3d" className="py-20 sm:py-28 bg-[#070B14] text-white relative overflow-hidden transition-colors duration-500 border-t border-cyan-500/20">
       
       {/* Dynamic 3D Chromatic Ambient Lights */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
@@ -237,9 +239,9 @@ export default function MotionGallery3DPage({ _version }) {
             <span className="uppercase tracking-widest text-[11px]">Trải Nghiệm 3D Động Ảnh & Sắc Màu Tri Ân</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight font-syne text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-cyan-400">
+          <h2 className={`text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight ${theme.fontHeading || 'font-syne'} text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-cyan-400`}>
             HẢI TRÌNH ÁNH SÁNG 3D
-          </h1>
+          </h2>
 
           <p className="text-sm sm:text-base text-gray-300 leading-relaxed font-light max-w-2xl mx-auto">
             Những khoảnh khắc xúc động giữa Giảng viên & Sinh viên được tái sinh trong không gian 3 chiều đa sắc màu: từng bức ảnh chuyển động theo nhịp ánh sáng và hơi thở giảng đường.
@@ -948,7 +950,8 @@ export default function MotionGallery3DPage({ _version }) {
         </div>
       )}
 
-    </div>
+      {/* Modal / Add forms */}
+    </section>
   );
 }
 

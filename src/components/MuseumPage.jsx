@@ -125,7 +125,7 @@ export default function MuseumPage({ version }) {
   });
 
   return (
-    <div className={`py-12 sm:py-20 transition-colors duration-300 ${theme.pageBg || 'bg-[#F5F0E7]'}`}>
+    <section id="museum" className={`py-16 sm:py-24 border-t ${theme.borderSubtle || 'border-current/20'} transition-colors duration-300 ${theme.pageBg || 'bg-[#F5F0E7]'}`}>
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
         
         {/* Page Hero Header */}
@@ -498,6 +498,6 @@ export default function MuseumPage({ version }) {
         </div>
       )}
 
-    </div>
+    </section>
   );
 }

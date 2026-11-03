@@ -81,7 +81,7 @@ export default function CompassQuizPage({ version }) {
   };
 
   return (
-    <div className={`py-12 sm:py-20 transition-colors duration-300 ${theme.pageBg || 'bg-[#F5F0E7]'}`}>
+    <section id="quiz" className={`py-16 sm:py-24 border-t ${theme.borderSubtle || 'border-current/20'} transition-colors duration-300 ${theme.pageBg || 'bg-[#F5F0E7]'}`}>
       <div className="max-w-4xl mx-auto px-5 sm:px-8">
 
         {/* STEP 0: INTRO SCREEN */}
@@ -323,6 +323,6 @@ export default function CompassQuizPage({ version }) {
         )}
 
       </div>
-    </div>
+    </section>
   );
 }
