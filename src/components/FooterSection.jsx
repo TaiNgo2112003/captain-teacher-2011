@@ -1,6 +1,7 @@
 import React from 'react';
+import { Shield } from 'lucide-react';
 
-export default function FooterSection() {
+export default function FooterSection({ onOpenAdmin }) {
   return (
     <footer className="relative bg-[#11263B] text-[#F5F0E7] pt-24 pb-16 overflow-hidden">
       
@@ -33,8 +34,8 @@ export default function FooterSection() {
           Kính chúc Quý Thầy, Quý Cô luôn giữ trọn ngọn lửa tâm huyết, mãi là bến đỗ bình yên và ngọn hải đăng soi sáng cho bao thế hệ học trò tự tin vượt sóng vươn ra biển lớn.
         </p>
 
-        {/* Colophon & Archival Notice */}
-        <div className="border-t border-[#B39765]/25 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#D3C6B3]/60">
+        {/* Colophon & Archival Notice + Admin Access */}
+        <div className="border-t border-[#B39765]/25 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#D3C6B3]/75">
           <div className="flex items-center gap-2">
             <span className="font-editorial text-[#FAF7F2] font-semibold tracking-wider">
               THE CAPTAIN’S JOURNAL
@@ -43,8 +44,19 @@ export default function FooterSection() {
             <span>Ấn bản Tri Ân 20/11</span>
           </div>
 
-          <div className="font-mono text-[11px] tracking-wider">
-            Dành tặng toàn thể Giảng viên & Sinh viên
+          <div className="flex items-center gap-4">
+            <span className="font-mono text-[11px] text-[#D3C6B3]/60 hidden md:inline">
+              Dành tặng toàn thể Giảng viên & Sinh viên
+            </span>
+
+            {/* Direct Admin Link in Footer */}
+            <button
+              onClick={onOpenAdmin}
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[#B39765]/50 text-[#B39765] hover:text-[#FAF7F2] hover:bg-[#B39765]/20 transition-all cursor-pointer text-xs"
+            >
+              <Shield className="w-3.5 h-3.5" />
+              <span>Quản Trị Admin (Mã PIN: 2011)</span>
+            </button>
           </div>
         </div>
 

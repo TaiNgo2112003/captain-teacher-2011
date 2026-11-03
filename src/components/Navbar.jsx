@@ -41,8 +41,8 @@ export default function Navbar({ onOpenAdmin, totalWishesCount }) {
             </div>
           </a>
 
-          {/* Desktop Navigation Links (Editorial Magazine Style) */}
-          <nav className="hidden md:flex items-center gap-8 text-[13px] tracking-wide text-[#1C2A39]/80 font-medium">
+          {/* Desktop Navigation Links */}
+          <nav className="hidden md:flex items-center gap-7 text-[13px] tracking-wide text-[#1C2A39]/80 font-medium">
             <a 
               href="#story" 
               className="hover:text-[#B39765] transition-colors relative py-1 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1px] after:bg-[#B39765] after:scale-x-0 hover:after:scale-x-100 after:transition-transform"
@@ -72,8 +72,8 @@ export default function Navbar({ onOpenAdmin, totalWishesCount }) {
             </a>
           </nav>
 
-          {/* Right Action: Editorial CTA & Admin */}
-          <div className="hidden lg:flex items-center gap-4">
+          {/* Right Action: Primary CTA & Prominent Admin Button */}
+          <div className="hidden lg:flex items-center gap-3">
             <a
               href="#studio"
               className="px-4 py-2 rounded-full border border-[#11263B] text-[#11263B] hover:bg-[#11263B] hover:text-[#F5F0E7] text-xs tracking-wider uppercase font-semibold transition-all duration-200"
@@ -81,13 +81,14 @@ export default function Navbar({ onOpenAdmin, totalWishesCount }) {
               Gửi lời tri ân
             </a>
 
+            {/* Clearly labeled Admin Button */}
             <button
               onClick={onOpenAdmin}
-              className="p-2 text-[#5C6A79] hover:text-[#11263B] transition-colors cursor-pointer"
-              title="Quản trị nội dung"
-              aria-label="Quản trị nội dung"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#11263B] hover:bg-[#18334E] text-[#F5F0E7] text-xs font-semibold transition-all duration-200 shadow-sm cursor-pointer border border-[#B39765]/40"
+              title="Mở Bảng Điều Khiển Quản Trị & Báo Giá (Mã PIN: 2011)"
             >
-              <Shield className="w-4 h-4" />
+              <Shield className="w-3.5 h-3.5 text-[#B39765]" />
+              <span>Admin (PIN: 2011)</span>
             </button>
           </div>
 
@@ -95,10 +96,11 @@ export default function Navbar({ onOpenAdmin, totalWishesCount }) {
           <div className="flex items-center gap-2 md:hidden">
             <button
               onClick={onOpenAdmin}
-              className="text-xs px-2.5 py-1 text-[#5C6A79] hover:text-[#11263B]"
+              className="flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1.5 rounded-full bg-[#11263B] text-[#F5F0E7] border border-[#B39765]/40"
               aria-label="Admin"
             >
-              <Shield className="w-4 h-4" />
+              <Shield className="w-3 h-3 text-[#B39765]" />
+              <span>Admin (2011)</span>
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -142,7 +144,7 @@ export default function Navbar({ onOpenAdmin, totalWishesCount }) {
             >
               Ký Ức Giảng Đường
             </a>
-            <div className="pt-2 border-t border-[#D3C6B3]/40">
+            <div className="pt-3 border-t border-[#D3C6B3]/40 space-y-2">
               <a
                 href="#studio"
                 onClick={() => setMobileMenuOpen(false)}
@@ -150,6 +152,17 @@ export default function Navbar({ onOpenAdmin, totalWishesCount }) {
               >
                 Gửi lời tri ân ngay
               </a>
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenAdmin();
+                }}
+                className="w-full py-2.5 rounded-full bg-[#F5F0E7] border border-[#B39765] text-[#11263B] text-xs font-semibold flex items-center justify-center gap-1.5"
+              >
+                <Shield className="w-3.5 h-3.5 text-[#B9685C]" />
+                <span>Mở Bảng Điều Khiển Admin (Mã PIN: 2011)</span>
+              </button>
             </div>
           </div>
         )}

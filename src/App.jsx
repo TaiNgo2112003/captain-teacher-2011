@@ -229,7 +229,17 @@ export default function App() {
       </main>
 
       {/* Section 5: Closing Greetings & 20/11 Celebration */}
-      <FooterSection />
+      <FooterSection onOpenAdmin={() => setIsAdminOpen(true)} />
+
+      {/* Floating Admin Quick Access Pill */}
+      <button
+        onClick={() => setIsAdminOpen(true)}
+        className="fixed bottom-5 right-5 z-40 flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#11263B] text-[#F5F0E7] border border-[#B39765]/60 shadow-2xl hover:bg-[#18334E] hover:scale-105 active:scale-95 transition-all text-xs font-semibold cursor-pointer group"
+        title="Mở Bảng Điều Khiển Quản Trị & Đề Xuất Kỹ Thuật (Mã PIN: 2011)"
+      >
+        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+        <span>Admin (PIN: 2011)</span>
+      </button>
 
       {/* Card Detail Modal */}
       {selectedCardForModal && (
